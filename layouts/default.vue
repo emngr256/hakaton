@@ -1,91 +1,96 @@
 <template>
-    <header class="flex w-full items-center justify-between bg-gray-900 shadow-sm py-2 top-0 z-50 text-gray-500">
-        <div class = "basis-1/4 max-sm:basis-1/3 max-sm:px-4 items-center justify-start px-10">
-            <img src="/assets/images/logo256.png" alt="Logo" class="h-12 w-12">
-        </div>
-        <div class="basis-1/4 max-sm:hidden">
-        </div>
-        
-        <!-- ИЗМЕНЕНИЕ: Добавлен z-40 и изменена структура классов для навигации -->
-        <nav :class="{'basis-1/2 flex flex-row items-center justify-end px-8 gap-4 z-40': !burger || burger,
-         'max-sm:basis-auto max-sm:fixed max-sm:top-12 max-sm:left-0 max-sm:right-0 max-sm:w-full max-sm:justify-center max-sm:flex-col max-sm:gap-0 max-sm:bg-white max-sm:px-0 max-sm:z-50 max-sm:shadow-lg': burger,'max-sm:hidden':!burger}">
-      <NuxtLink to="/" class="my-auto p-2 hover:bg-gray-500 hover:text-white max-sm:w-full max-sm:border-b-2 max-sm:border-black max-sm:text-center">Home</NuxtLink>
-      
-      <!-- ИЗМЕНЕНИЕ: Добавлен relative и z-50 для контейнера Labs -->
-      <div role="button" class="my-auto p-2 select-none hover:bg-gray-500  hover:text-white max-sm:w-full max-sm:text-center max-sm:px-0 max-sm:pb-0 relative z-50" @click = "switch_submenu">Labs
-        
-        <!-- ИЗМЕНЕНИЕ: Добавлен высокий z-index (z-50) и shadow для выпадающего меню -->
-        <div class="flex border-2 border-white flex-col absolute bg-gray-900 mt-5 text-white w-56 text-center max-sm:relative max-sm:w-full max-sm:bg-red-100 shadow-lg z-50" v-show = "submenu">
-          <NuxtLink to="/lab3" class="my-auto p-2 border-b-2 border-white hover:bg-gray-500 hover:text-white max-sm:w-full max-sm:border-t-2 max-sm:text-center">Lab3</NuxtLink>
-          <NuxtLink to="/lab4" class="my-auto p-2 border-b-2 border-white hover:bg-gray-500 hover:text-white max-sm:w-full max-sm:text-center">Lab4</NuxtLink>
-          <NuxtLink to="/lab5" class="my-auto p-2 border-b-2 border-white hover:bg-gray-500 hover:text-white max-sm:w-full max-sm:text-center">Lab5</NuxtLink>
-          <NuxtLink to="/lab6" class="my-auto p-2 border-b-2 border-white hover:bg-gray-500 hover:text-white max-sm:w-full max-sm:border-black max-sm:text-center">Lab6</NuxtLink>
-        </div>
+  <div>
+    <header class="relative w-full bg-transparent py-2 z-50">
+      <!-- Полупрозрачная кнопка меню -->
+      <div class="flex items-center justify-start px-4">
+        <button 
+          @click="toggleMenu"
+          class="p-3 bg-black/30 backdrop-blur-sm rounded-full shadow-lg hover:bg-black/50 transition-all duration-300 border border-white/20"
+          aria-label="Открыть меню"
+        >
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path 
+              v-if="!menuOpen"
+              stroke-linecap="round" 
+              stroke-linejoin="round" 
+              stroke-width="2" 
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+            <path 
+              v-else
+              stroke-linecap="round" 
+              stroke-linejoin="round" 
+              stroke-width="2" 
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </div>
-      
-      <NuxtLink to="/login" :class="{'my-auto p-2 hover:bg-gray-500 hover:text-white max-sm:w-full max-sm:border-b-2 max-sm:border-black max-sm:text-center': submenu,
-      'my-auto p-2 hover:bg-gray-500 hover:text-white max-sm:w-full max-sm:border-b-2 max-sm:border-t-2 max-sm:border-black max-sm:text-center': !submenu}">LogIn</NuxtLink>
-      <NuxtLink to="/logout" class="my-auto p-2 hover:bg-gray-500 hover:text-white max-sm:w-full max-sm:border-b-2 max-sm:border-black max-sm:text-center">LogOut</NuxtLink>
-    </nav>
-    
-    <!-- ИЗМЕНЕНИЕ: Добавлен z-40 для бургер-кнопки -->
-    <div v-if ="!burger" @click ="switch_burger" class = "max-sm:flex max-sm:flex-col max-sm:mr-8 max-sm:justify-between max-sm:items-center max-sm:w-8 max-sm:h-6 z-40">
-      <span class="h-[3px] w-full bg-blue-950"></span>
-      <span class="h-[3px] w-full bg-blue-950"></span>
-      <span class="h-[3px] w-full bg-blue-950"></span>
-    </div>
-    
-    <!-- ИЗМЕНЕНИЕ: Добавлен z-40 для бургер-кнопки (крестик) -->
-    <div v-else class = "max-sm:flex max-sm:flex-col max-sm:mr-8 max-sm:justify-between max-sm:items-center max-sm:w-8 max-sm:h-6 z-40" @click="switch_burger">
-      <span class="h-[3px] w-full bg-blue-950 rotate-45 relative top-[9px]"></span>
-      <span class="h-[3px] w-full bg-blue-950 opacity-0"></span>
-      <span class="h-[3px] w-full bg-blue-950 relative bottom-3 rotate-[-45deg]"></span>
-    </div>
-    </Header>
 
-  <main class="p-5 flex-row w-full min-h-screen relative overflow-hidden">
-  <!-- <div 
-    class="absolute inset-0 -z-10 bg-[url('/assets/images/bg1.png')] bg-cover bg-center [filter:blur(10px)]">
-  </div> -->
-  <slot />
-</main>
+      <!-- Выпадающее меню -->
+      <div 
+        v-show="menuOpen"
+        class="absolute top-12 left-4 bg-black/70 backdrop-blur-md text-white rounded-xl shadow-2xl py-3 min-w-48 z-50 border border-white/20"
+      >
+        <NuxtLink 
+          to="/" 
+          class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
+          @click="menuOpen = false"
+        >
+          Home
+        </NuxtLink>
+        
+        <NuxtLink 
+          to="/map" 
+          class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
+          @click="menuOpen = false"
+        >
+          Map
+        </NuxtLink>
+        
+        <NuxtLink 
+          to="/temperature" 
+          class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
+          @click="menuOpen = false"
+        >
+          Temperature
+        </NuxtLink>
+        
+        <NuxtLink 
+          to="/water-level" 
+          class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
+          @click="menuOpen = false"
+        >
+          Water Level
+        </NuxtLink>
+        
+        <NuxtLink 
+          to="/infection" 
+          class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
+          @click="menuOpen = false"
+        >
+          Methane Infection
+        </NuxtLink>
+      </div>
 
-    <footer class = "flex flex-row w-full bg-gray-100 border-t-2 border-b-gray-400 items-center justify-center px-4 py-2 gap-4">
-      <a href = "https://www.youtube.com/"><img src="assets/images/youtube.png" class = "w-16 h-16"></a>
-      <a href = "https://github.com/emngr256/"><img src="assets/images/github.png" class = "w-16 h-16"></a>
-      <a href = "https://www.facebook.com/"><img src="assets/images/facebook.png" class = "w-16 h-16 bg-transparent"></a>
-    </footer>
-    <footer class="p-4 bg-gray-100">
-  <div class="text-xs text-gray-500 text-center">
-    <p>©alan-web</p>
+      <!-- Overlay для закрытия меню -->
+      <div 
+        v-show="menuOpen"
+        class="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+        @click="menuOpen = false"
+      ></div>
+    </header>
+
+    <main class="p-5 w-full min-h-screen relative overflow-hidden">
+      <slot />
+    </main>
   </div>
-</footer>
 </template>
 
 <script setup lang="ts">
-useHead({
-  script: [
-    {
-      async: true,
-      src: 'https://www.googletagmanager.com/gtag/js?id=G-9BFTYEBPN7',
-    },
-    {
-      innerHTML: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-9BFTYEBPN7');
-      `,
-      type: 'text/javascript',
-      id: 'gtag-init'
-    },
-  ],
-})
+const menuOpen = ref(false)
 
-const burger = ref<boolean>(false)
-const submenu = ref<boolean>(false)
-
-const switch_burger = ()=> (burger.value = !burger.value)
-const switch_submenu = ()=> (submenu.value = !submenu.value)
-
+const toggleMenu = () => {
+  menuOpen.value = !menuOpen.value
+}
 </script>
