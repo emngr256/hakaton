@@ -82,7 +82,7 @@
       <div class="space-y-2 text-sm">
         <div class="flex items-center">
           <div class="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-          <span>Озера</span>
+          <span>Озеро Поганка</span>
         </div>
         <div class="flex items-center">
           <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>

@@ -42,7 +42,7 @@
         </NuxtLink>
         
         <NuxtLink 
-          to="/map" 
+          to="/dropdownbar/map" 
           class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
           @click="menuOpen = false"
         >
@@ -50,7 +50,7 @@
         </NuxtLink>
         
         <NuxtLink 
-          to="/temperature" 
+          to="/dropdownbar/temperature" 
           class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
           @click="menuOpen = false"
         >
@@ -58,7 +58,7 @@
         </NuxtLink>
         
         <NuxtLink 
-          to="/water-level" 
+          to="/dropdownbar/water-level" 
           class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
           @click="menuOpen = false"
         >
@@ -66,7 +66,7 @@
         </NuxtLink>
         
         <NuxtLink 
-          to="/infection" 
+          to="/dropdownbar/infection" 
           class="block px-4 py-3 hover:bg-white/20 transition-all duration-200"
           @click="menuOpen = false"
         >
