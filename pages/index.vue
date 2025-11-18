@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section id="home" class="relative pt-20 min-h-screen flex items-center">
-      <div class="absolute inset-0 z-0">
-        <img src="" alt="">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
-      </div>
+<section id="home" class="relative pt-20 min-h-screen flex items-center">
+  <div class="absolute inset-0 z-0">
+    <img src="/assets/images/lake.jpg" alt="" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black/30"></div>
+  </div>
 
       <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-3xl">
