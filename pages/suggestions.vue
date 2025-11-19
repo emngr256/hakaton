@@ -182,7 +182,6 @@ interface Suggestion {
   date: string;
   status: 'new' | 'reviewed' | 'planned';
   likes: number;
-  likedBy: string[];
 }
 
 const suggestions = ref<Suggestion[]>([]);
@@ -192,8 +191,6 @@ const loginData = ref({
   username: '',
   password: ''
 });
-
-const API_BASE = 'http://localhost:3001/api';
 
 // Загрузка при монтировании
 onMounted(() => {
@@ -206,27 +203,16 @@ const loadSuggestions = () => {
 }
 
 // 🔐 Вход для админа
-const login = async () => {
-  try {
-    const response = await fetch(`${API_BASE}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginData.value),
-    });
-
-    const data = await response.json();
-    
-    if (response.ok) {
-      user.value = data.user;
-      loginData.value = { username: '', password: '' };
-    } else {
-      alert(data.error || 'Ошибка входа');
-    }
-  } catch (error) {
-    console.error('Ошибка входа:', error);
-    alert('Ошибка соединения с сервером');
+const login = () => {
+  if (loginData.value.username === 'admin' && loginData.value.password === 'admin123') {
+    user.value = {
+      username: 'admin',
+      role: 'host'
+    };
+    loginData.value = { username: '', password: '' };
+    alert('Вход выполнен как администратор!');
+  } else {
+    alert('Неверные учетные данные');
   }
 };
 
@@ -234,71 +220,39 @@ const logout = () => {
   user.value = null;
 };
 
-// 👍 Лайки (доступно всем)
-const likeSuggestion = async (suggestionId: string) => {
-  try {
-    const response = await fetch(`${API_BASE}/suggestions/${suggestionId}/like`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      // Обновляем локальное состояние
-      const suggestion = suggestions.value.find(s => s.id === suggestionId);
-      if (suggestion) {
-        suggestion.likes = data.likes;
-      }
-    }
-  } catch (error) {
-    console.error('Ошибка лайка:', error);
+// 👍 Лайки
+const likeSuggestion = (suggestionId: string) => {
+  const suggestion = suggestions.value.find(s => s.id === suggestionId);
+  if (suggestion) {
+    suggestion.likes = (suggestion.likes || 0) + 1;
+    saveToLocalStorage();
   }
 };
 
-// ✅ Изменение статуса (только для админа)
-const changeStatus = async (id: string, newStatus: string) => {
+// ✅ Изменение статуса
+const changeStatus = (id: string, newStatus: string) => {
   if (!user.value) return;
   
-  try {
-    const response = await fetch(`${API_BASE}/suggestions/${id}/status`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ status: newStatus }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      const index = suggestions.value.findIndex(s => s.id === id);
-      if (index !== -1) {
-        suggestions.value[index] = data.suggestion;
-      }
-    }
-  } catch (error) {
-    console.error('Ошибка изменения статуса:', error);
+  const suggestion = suggestions.value.find(s => s.id === id);
+  if (suggestion) {
+    suggestion.status = newStatus;
+    saveToLocalStorage();
   }
 };
 
-// 🗑️ Удаление (только для админа)
-const deleteSuggestion = async (id: string) => {
+// 🗑️ Удаление
+const deleteSuggestion = (id: string) => {
   if (!user.value) return;
   
   if (confirm('Удалить это предложение?')) {
-    try {
-      const response = await fetch(`${API_BASE}/suggestions/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        suggestions.value = suggestions.value.filter(s => s.id !== id);
-      }
-    } catch (error) {
-      console.error('Ошибка удаления:', error);
-    }
+    suggestions.value = suggestions.value.filter(s => s.id !== id);
+    saveToLocalStorage();
   }
+};
+
+// 💾 Сохранение в localStorage
+const saveToLocalStorage = () => {
+  localStorage.setItem('lakeSuggestions', JSON.stringify(suggestions.value));
 };
 
 // Статистика
@@ -319,7 +273,7 @@ const todaySuggestions = computed(() => {
   }).length;
 });
 
-// Сортировка по дате (новые сначала)
+// Сортировка по дате
 const sortedSuggestions = computed(() => {
   return [...suggestions.value].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 });
