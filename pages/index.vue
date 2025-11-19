@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- Hero Section -->
-<section id="home" class="relative pt-20 min-h-screen flex items-center">
-  <div class="absolute inset-0 z-0">
-    <img src="/assets/images/lake.jpg" alt="" class="w-full h-full object-cover">
-    <div class="absolute inset-0 bg-black/30"></div>
-  </div>
+    <section id="home" class="relative pt-20 min-h-screen flex items-center">
+      <div class="absolute inset-0 z-0">
+        <img src="/assets/images/lake.jpg" alt="" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/30"></div>
+      </div>
 
       <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-3xl">
@@ -22,6 +22,48 @@
             Наши озёра находятся под угрозой загрязнения и разрушения. 
             Присоединяйтесь к движению за сохранение водных ресурсов нашего города.
           </p>
+
+          <!-- Форма для предложений -->
+          <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+            <h3 class="text-white text-xl font-bold mb-4">💡 Ваши предложения</h3>
+            <p class="text-gray-200 mb-4">Поделитесь идеями по сохранению наших озёр:</p>
+            
+            <form @submit.prevent="submitSuggestion" class="space-y-4">
+              <div>
+                <label class="text-white text-sm font-medium mb-2 block">Ваше имя</label>
+                <input 
+                  v-model="suggestionForm.name"
+                  type="text" 
+                  placeholder="Как к вам обращаться?"
+                  class="w-full px-4 py-3 rounded-lg bg-white/90 backdrop-blur-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all"
+                  required
+                >
+              </div>
+              
+              <div>
+                <label class="text-white text-sm font-medium mb-2 block">Ваше предложение</label>
+                <textarea 
+                  v-model="suggestionForm.message"
+                  placeholder="Что можно сделать для сохранения озёр Петропавловска?"
+                  rows="4"
+                  class="w-full px-4 py-3 rounded-lg bg-white/90 backdrop-blur-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all resize-none"
+                  required
+                ></textarea>
+              </div>
+              
+              <button 
+                type="submit"
+                class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+              >
+                📝 Отправить предложение
+              </button>
+            </form>
+
+            <!-- Успешное сообщение -->
+            <div v-if="showSuccess" class="mt-4 p-3 bg-green-500/90 text-white rounded-lg text-center">
+              ✅ Спасибо! Ваше предложение сохранено.
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -138,6 +180,45 @@ import {
   MapPin,
   TrendingDown
 } from 'lucide-vue-next'
+
+// Форма для предложений
+const suggestionForm = ref({
+  name: '',
+  message: ''
+})
+
+const showSuccess = ref(false)
+
+// Функция отправки предложения
+const submitSuggestion = () => {
+  // Получаем текущие предложения из localStorage
+  const existingSuggestions = JSON.parse(localStorage.getItem('lakeSuggestions') || '[]')
+  
+  // Добавляем новое предложение
+  const newSuggestion = {
+    id: Date.now(),
+    name: suggestionForm.value.name,
+    message: suggestionForm.value.message,
+    date: new Date().toLocaleString('ru-RU'),
+    status: 'new'
+  }
+  
+  existingSuggestions.push(newSuggestion)
+  
+  // Сохраняем обратно в localStorage
+  localStorage.setItem('lakeSuggestions', JSON.stringify(existingSuggestions))
+  
+  // Показываем успешное сообщение
+  showSuccess.value = true
+  
+  // Очищаем форму
+  suggestionForm.value = { name: '', message: '' }
+  
+  // Скрываем сообщение через 3 секунды
+  setTimeout(() => {
+    showSuccess.value = false
+  }, 3000)
+}
 
 const problems = [
   {
