@@ -38,7 +38,7 @@
           class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
           @click="menuOpen = false"
         >
-          🏠 Home
+          Главная
         </NuxtLink>
         
         <NuxtLink 
@@ -46,7 +46,7 @@
           class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
           @click="menuOpen = false"
         >
-          🗺️ Map
+          Карта
         </NuxtLink>
         
         <NuxtLink 
@@ -54,7 +54,7 @@
           class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
           @click="menuOpen = false"
         >
-          🌡️ Temperature
+          Температура
         </NuxtLink>
         
         <NuxtLink 
@@ -62,7 +62,7 @@
           class="block px-4 py-3 hover:bg-white/20 transition-all duration-200 border-b border-white/10"
           @click="menuOpen = false"
         >
-          💧 Water Level
+          Уровень воды
         </NuxtLink>
         
         <NuxtLink 
@@ -70,7 +70,7 @@
           class="block px-4 py-3 hover:bg-white/20 transition-all duration-200"
           @click="menuOpen = false"
         >
-          🦠 Infection
+          Заражение
         </NuxtLink>
       </div>
 
