@@ -3,19 +3,19 @@
     <!-- Hero Section -->
     <section id="home" class="relative pt-20 min-h-screen flex items-center">
       <div class="absolute inset-0 z-0">
-        <img src="/assets/images/lake.jpg" alt="" class="w-full h-full object-cover">
+        <img src="/assets/images/lake.jpg" alt="Озеро Петропавловска" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-black/30"></div>
       </div>
 
       <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-3xl">
-          <div class="inline-flex items-start gap-2 bg-red-500/90 text-white px-4 py-2 rounded-full mb-6">
+          <div class="inline-flex items-center gap-2 bg-red-500/90 text-white px-4 py-2 rounded-full mb-6">
             <AlertCircle :size="20" />
-            <span>Экологическая тревога</span>
+            <span class="font-medium">Экологическая тревога</span>
           </div>
           
-          <h1 class="text-white mb-6">
-            Защитим озёра Петропавловска
+          <h1 class="text-5xl font-bold text-white mb-6 leading-tight">
+            Защитим озёра<br>Петропавловска
           </h1>
           
           <p class="text-xl text-gray-200 mb-8 leading-relaxed">
@@ -30,38 +30,47 @@
             
             <form @submit.prevent="submitSuggestion" class="space-y-4">
               <div>
-                <label class="text-white text-sm font-medium mb-2 block">Ваше имя</label>
                 <input 
                   v-model="suggestionForm.name"
                   type="text" 
-                  placeholder="Как к вам обращаться?"
-                  class="w-full px-4 py-3 rounded-lg bg-white/90 backdrop-blur-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all"
+                  placeholder="Ваше имя"
+                  class="w-full px-4 py-3 rounded-lg bg-white/90 backdrop-blur-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all placeholder-gray-500"
                   required
                 >
               </div>
               
               <div>
-                <label class="text-white text-sm font-medium mb-2 block">Ваше предложение</label>
                 <textarea 
                   v-model="suggestionForm.message"
                   placeholder="Что можно сделать для сохранения озёр Петропавловска?"
                   rows="4"
-                  class="w-full px-4 py-3 rounded-lg bg-white/90 backdrop-blur-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all resize-none"
+                  class="w-full px-4 py-3 rounded-lg bg-white/90 backdrop-blur-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all resize-none placeholder-gray-500"
                   required
                 ></textarea>
               </div>
               
               <button 
                 type="submit"
-                class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+                class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 📝 Отправить предложение
               </button>
             </form>
 
             <!-- Успешное сообщение -->
-            <div v-if="showSuccess" class="mt-4 p-3 bg-green-500/90 text-white rounded-lg text-center">
+            <div v-if="showSuccess" class="mt-4 p-4 bg-green-500/90 text-white rounded-lg text-center border border-green-400">
               ✅ Спасибо! Ваше предложение сохранено.
+            </div>
+
+            <!-- Ссылка на просмотр предложений -->
+            <div class="mt-6 text-center">
+              <NuxtLink 
+                to="/suggestions" 
+                class="inline-flex items-center gap-2 text-white hover:text-blue-200 transition-colors font-medium"
+              >
+                👀 Посмотреть все предложения
+                <ArrowRight :size="16" />
+              </NuxtLink>
             </div>
           </div>
         </div>
@@ -72,7 +81,7 @@
     <section id="problems" class="py-20 bg-gray-50">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="mb-4">Основные экологические проблемы</h2>
+          <h2 class="text-4xl font-bold text-gray-800 mb-4">Основные экологические проблемы</h2>
           <p class="text-xl text-gray-600 max-w-3xl mx-auto">
             Озёра Петропавловска сталкиваются с множеством экологических угроз, 
             требующих немедленного внимания и действий.
@@ -80,10 +89,10 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <UCard 
+          <div 
             v-for="(problem, index) in problems" 
             :key="index" 
-            class="p-6 hover:shadow-lg transition-shadow"
+            class="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow border border-gray-100"
           >
             <div class="flex items-start gap-4">
               <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -91,15 +100,15 @@
               </div>
               <div class="flex-1">
                 <div class="flex items-start justify-between mb-2">
-                  <h3 class="text-lg">{{ problem.title }}</h3>
+                  <h3 class="text-lg font-semibold text-gray-800">{{ problem.title }}</h3>
                 </div>
-                <p class="text-gray-600 mb-3">{{ problem.description }}</p>
-                <span :class="['inline-block px-3 py-1 rounded-full text-xs', getSeverityColor(problem.severity)]">
+                <p class="text-gray-600 mb-3 leading-relaxed">{{ problem.description }}</p>
+                <span :class="['inline-block px-3 py-1 rounded-full text-xs font-medium', getSeverityColor(problem.severity)]">
                   {{ problem.severity }}
                 </span>
               </div>
             </div>
-          </UCard>
+          </div>
         </div>
       </div>
     </section>
@@ -108,61 +117,77 @@
     <section id="lakes" class="py-20 bg-white">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="mb-4">Озёра под угрозой</h2>
+          <h2 class="text-4xl font-bold text-gray-800 mb-4">Озёра под угрозой</h2>
           <p class="text-xl text-gray-600 max-w-3xl mx-auto">
             Каждое из озёр Петропавловска требует особого внимания и мер по восстановлению экосистемы.
           </p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <UCard 
+          <div 
             v-for="(lake, index) in lakes" 
             :key="index" 
-            class="overflow-hidden hover:shadow-xl transition-shadow"
+            class="bg-white rounded-xl overflow-hidden hover:shadow-xl transition-shadow border border-gray-100"
           >
-            <template #header>
-              <div class="relative h-48">
-                <ImageWithFallback
-                  :src="lake.image"
-                  :alt="lake.name"
-                  class="w-full h-full object-cover"
-                />
-                <div class="absolute top-4 right-4">
-                  <UBadge :color="getStatusColor(lake.status)" class="shadow-lg">
-                    {{ lake.status }}
-                  </UBadge>
-                </div>
+            <div class="relative h-48">
+              <img
+                :src="lake.image"
+                :alt="lake.name"
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute top-4 right-4">
+                <span :class="['px-3 py-1 rounded-full text-xs font-medium shadow-lg', getStatusBadge(lake.status)]">
+                  {{ lake.status }}
+                </span>
               </div>
-            </template>
+            </div>
             
             <div class="p-6">
-              <h3 class="text-xl mb-2">{{ lake.name }}</h3>
+              <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ lake.name }}</h3>
               
               <div class="flex items-center gap-2 text-gray-600 mb-4">
                 <MapPin :size="16" />
-                <span>{{ lake.location }}</span>
+                <span class="text-sm">{{ lake.location }}</span>
               </div>
 
-              <p class="text-gray-600 mb-4">{{ lake.description }}</p>
+              <p class="text-gray-600 mb-4 leading-relaxed">{{ lake.description }}</p>
 
               <div class="flex gap-4 pt-4 border-t border-gray-200">
                 <div>
                   <div class="text-sm text-gray-500">Площадь</div>
-                  <div class="font-semibold">{{ lake.area }}</div>
+                  <div class="font-semibold text-gray-800">{{ lake.area }}</div>
                 </div>
                 <div>
                   <div class="text-sm text-gray-500">Глубина</div>
-                  <div class="font-semibold">{{ lake.depth }}</div>
+                  <div class="font-semibold text-gray-800">{{ lake.depth }}</div>
                 </div>
               </div>
 
               <div class="mt-4 flex items-center gap-2 text-red-600">
                 <TrendingDown :size="16" />
-                <span class="text-sm">Качество воды ухудшается</span>
+                <span class="text-sm font-medium">Качество воды ухудшается</span>
               </div>
             </div>
-          </UCard>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 bg-gradient-to-r from-blue-600 to-cyan-600">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Присоединяйтесь к движению!</h2>
+        <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          Каждое предложение важно для сохранения наших водных ресурсов. 
+          Вместе мы можем изменить ситуацию к лучшему.
+        </p>
+        <NuxtLink 
+          to="/suggestions"
+          class="inline-flex items-center gap-2 bg-white text-blue-600 font-semibold py-3 px-8 rounded-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
+        >
+          📋 Посмотреть все предложения
+          <ArrowRight :size="20" />
+        </NuxtLink>
       </div>
     </section>
   </div>
@@ -178,7 +203,8 @@ import {
   Fish, 
   AlertTriangle,
   MapPin,
-  TrendingDown
+  TrendingDown,
+  ArrowRight
 } from 'lucide-vue-next'
 
 // Форма для предложений
@@ -199,7 +225,6 @@ const submitSuggestion = () => {
     name: suggestionForm.value.name,
     message: suggestionForm.value.message,
     date: new Date().toISOString(),
-    status: 'new',
     likes: 0
   }
   
@@ -302,30 +327,16 @@ const getSeverityColor = (severity: string): string => {
   }
 }
 
-const getStatusColor = (status: string): string => {
+const getStatusBadge = (status: string): string => {
   switch (status) {
     case "Критическое":
-      return "red"
+      return "bg-red-500 text-white"
     case "Загрязнено":
-      return "gray"
+      return "bg-gray-500 text-white"
     case "Под угрозой":
-      return "yellow"
+      return "bg-yellow-500 text-white"
     default:
-      return "gray"
+      return "bg-gray-500 text-white"
   }
 }
 </script>
-
-<style scoped>
-h1 {
-  @apply text-5xl font-bold;
-}
-
-h2 {
-  @apply text-4xl font-bold;
-}
-
-h3 {
-  @apply text-xl font-semibold;
-}
-</style>
