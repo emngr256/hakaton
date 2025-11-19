@@ -189,36 +189,31 @@ const suggestionForm = ref({
 
 const showSuccess = ref(false)
 
-// Функция отправки предложения
-const submitSuggestion = () => {
-  // Получаем текущие предложения из localStorage
-  const existingSuggestions = JSON.parse(localStorage.getItem('lakeSuggestions') || '[]')
-  
-  // Добавляем новое предложение
-  const newSuggestion = {
-    id: Date.now(),
-    name: suggestionForm.value.name,
-    message: suggestionForm.value.message,
-    date: new Date().toLocaleString('ru-RU'),
-    status: 'new'
+const submitSuggestion = async () => {
+  try {
+    const response = await fetch('http://localhost:3001/api/suggestions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(suggestionForm.value),
+    });
+
+    if (response.ok) {
+      showSuccess.value = true;
+      suggestionForm.value = { name: '', message: '' };
+      
+      setTimeout(() => {
+        showSuccess.value = false;
+      }, 3000);
+    } else {
+      alert('Ошибка отправки предложения');
+    }
+  } catch (error) {
+    console.error('Ошибка:', error);
+    alert('Ошибка соединения с сервером');
   }
-  
-  existingSuggestions.push(newSuggestion)
-  
-  // Сохраняем обратно в localStorage
-  localStorage.setItem('lakeSuggestions', JSON.stringify(existingSuggestions))
-  
-  // Показываем успешное сообщение
-  showSuccess.value = true
-  
-  // Очищаем форму
-  suggestionForm.value = { name: '', message: '' }
-  
-  // Скрываем сообщение через 3 секунды
-  setTimeout(() => {
-    showSuccess.value = false
-  }, 3000)
-}
+};
 
 const problems = [
   {
