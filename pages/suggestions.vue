@@ -200,17 +200,10 @@ onMounted(() => {
   loadSuggestions();
 });
 
-// Загрузка предложений
-const loadSuggestions = async () => {
-  try {
-    const response = await fetch(`${API_BASE}/suggestions`);
-    if (response.ok) {
-      suggestions.value = await response.json();
-    }
-  } catch (error) {
-    console.error('Ошибка загрузки предложений:', error);
-  }
-};
+const loadSuggestions = () => {
+  const saved = localStorage.getItem('lakeSuggestions');
+  suggestions.value = saved ? JSON.parse(saved) : [];
+}
 
 // 🔐 Вход для админа
 const login = async () => {
