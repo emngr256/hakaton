@@ -195,7 +195,7 @@ const submitSuggestion = () => {
   
   // Добавляем новое предложение
   const newSuggestion = {
-    id: Date.now(),
+    id: Date.now().toString(),
     name: suggestionForm.value.name,
     message: suggestionForm.value.message,
     date: new Date().toISOString(),
@@ -219,6 +219,7 @@ const submitSuggestion = () => {
     showSuccess.value = false
   }, 3000)
 }
+
 const problems = [
   {
     icon: Factory,
