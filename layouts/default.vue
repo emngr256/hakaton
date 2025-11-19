@@ -87,6 +87,96 @@
       <slot />
     </main>
   </div>
+  <footer id="contact" class="bg-gray-900 text-gray-300 py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <!-- About Section -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+              <span class="text-white">🌊</span>
+            </div>
+            <div>
+              <div class="font-semibold text-white">Чистые Озёра</div>
+              <div class="text-xs">Петропавловск</div>
+            </div>
+          </div>
+          <p class="text-sm">
+            Общественная инициатива по защите и восстановлению озёр города Петропавловска.
+          </p>
+        </div>
+
+        <!-- Contacts Section -->
+        <div>
+          <h4 class="text-white mb-4">Контакты</h4>
+          <div class="space-y-3">
+            <div class="flex items-center gap-2">
+              <Mail :size="16" />
+              <span class="text-sm">sample@email.com</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <Phone :size="16" />
+              <span class="text-sm">+7 (XXX) XXX-XXX</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <MapPin :size="16" />
+              <span class="text-sm">г. Петропавловск, Казахстан</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media Section -->
+        <div>
+          <h4 class="text-white mb-4">Следите за нами</h4>
+          <div class="flex gap-4">
+            <a 
+              href="https://aim-hktn.netlify.app/" 
+              class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+              aria-label="Netlify"
+            >
+              <Monitor :size="20" />
+            </a>
+            <a 
+              href="https://github.com/emngr256/hakaton/" 
+              class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+              aria-label="Github"
+            >
+              <Github :size="20" />
+            </a>
+            <a 
+              href="https://youtube.com/" 
+              class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+              aria-label="Youtube"
+            >
+              <Youtube :size="20" />
+            </a>
+          </div>
+          <div class="mt-6">
+            <p class="text-sm text-gray-400">
+              Присоединяйтесь к нашему сообществу и получайте новости о природоохранных мероприятиях.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright Section -->
+      <div class="border-t border-gray-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p class="text-sm text-gray-400">
+            © 2025 Чистые Озёра. Все права защищены.
+          </p>
+          <div class="flex gap-6 text-sm">
+            <a href="#" class="hover:text-white transition-colors">
+              Политика конфиденциальности
+            </a>
+            <a href="#" class="hover:text-white transition-colors">
+              Условия использования
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 </template>
 
 <script setup lang="ts">
@@ -95,6 +185,7 @@ const menuOpen = ref(false)
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value
 }
+import { Mail, Phone, MapPin, Facebook, Instagram, Youtube, Github, Monitor } from 'lucide-vue-next'
 </script>
 
 <style>
@@ -113,5 +204,8 @@ body {
 
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
+}
+h4 {
+  @apply text-lg font-semibold;
 }
 </style>
