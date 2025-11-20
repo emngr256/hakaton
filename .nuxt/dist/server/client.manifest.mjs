@@ -1,0 +1,1 @@
+export { default } from "file:///C:/Users/km929/Desktop/didar2/hakaton-main/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
