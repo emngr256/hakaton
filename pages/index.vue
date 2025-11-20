@@ -188,7 +188,7 @@ import {
   TrendingDown
 } from 'lucide-vue-next'
 
-const API_BASE = 'http://localhost:3001/api'
+const API_BASE = 'https://hakaton-lakes-back.onrender.com/api'
 
 // Форма для предложений
 const suggestionForm = ref({
