@@ -197,7 +197,7 @@
               <Mail class="w-4 h-4 text-blue-400" />
               <div class="text-sm">
                 <div class="text-blue-300 text-xs">Email</div>
-                <div class="text-white">sample@email.com</div>
+                <div class="text-white">mansur@email.com</div>
               </div>
             </div>
             <div class="flex items-center gap-2">
