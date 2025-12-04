@@ -567,7 +567,7 @@
 
 <script setup>
 // Импорты
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, computed } from 'vue'
 import { 
   AlertTriangle, Factory, Trash2, Droplet, Thermometer, Fish, 
   ArrowRight, ChevronDown, Lightbulb, Send, CheckCircle, XCircle,
@@ -576,68 +576,17 @@ import {
 
 const API_BASE = 'https://hakaton-lakes-back.onrender.com/api'
 
-// Прогресс скролла для плавных переходов
+// Реактивные данные
 const scrollProgress = ref(0)
 const parallax = ref(0)
-
-const handleScroll = () => {
-  const scrollY = window.scrollY
-  const windowHeight = window.innerHeight
-  
-  // Прогресс скролла от 0 до 1
-  scrollProgress.value = Math.min(scrollY / (windowHeight * 0.8), 1)
-  parallax.value = scrollY / 1000
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
-
-// Состояние формы предложений
 const isFormCollapsed = ref(false)
+const showEmergencyModal = ref(false)
+const showVolunteerModal = ref(false)
+const showSuccess = ref(false)
+const showError = ref(false)
+const isSubmitting = ref(false)
 
-const toggleForm = () => {
-  isFormCollapsed.value = !isFormCollapsed.value
-}
-
-// Плавный скролл к секции проблем
-const scrollToProblems = () => {
-  const problemsSection = document.getElementById('problems')
-  if (problemsSection) {
-    problemsSection.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    })
-  }
-}
-
-// Статистика предложений
-const suggestionStats = reactive({
-  total: 247,
-  today: 12,
-  implemented: 45
-})
-
-// Быстрые действия
-const quickActions = [
-  { label: 'Поделиться', icon: Share2, action: 'share', hasArrow: true, class: 'hover:bg-blue-500/20' },
-  { label: 'Подписаться', icon: Bell, action: 'subscribe', hasArrow: false, class: 'hover:bg-emerald-500/20' },
-  { label: 'Пожертвовать', icon: Heart, action: 'donate', hasArrow: true, class: 'hover:bg-red-500/20' }
-]
-
-// Категории предложений
-const suggestionCategories = [
-  { value: 'cleaning', label: 'Уборка', emoji: '🧹', defaultClass: 'bg-white/10 border-white/30 text-white hover:bg-white/20', selectedClass: 'bg-blue-500 border-blue-500 text-white' },
-  { value: 'monitoring', label: 'Мониторинг', emoji: '📊', defaultClass: 'bg-white/10 border-white/30 text-white hover:bg-white/20', selectedClass: 'bg-emerald-500 border-emerald-500 text-white' },
-  { value: 'education', label: 'Образование', emoji: '🎓', defaultClass: 'bg-white/10 border-white/30 text-white hover:bg-white/20', selectedClass: 'bg-purple-500 border-purple-500 text-white' },
-  { value: 'infrastructure', label: 'Инфраструктура', emoji: '🏗️', defaultClass: 'bg-white/10 border-white/30 text-white hover:bg-white/20', selectedClass: 'bg-orange-500 border-orange-500 text-white' }
-]
-
-// Форма для предложений
+// Формы
 const suggestionForm = ref({
   name: '',
   lake: '',
@@ -645,7 +594,6 @@ const suggestionForm = ref({
   category: 'cleaning'
 })
 
-// Экстренное уведомление
 const emergencyAlert = ref({
   type: '',
   lake: '',
@@ -654,148 +602,38 @@ const emergencyAlert = ref({
   reporter_name: ''
 })
 
-// Форма волонтёра
 const volunteerForm = ref({
   name: '',
   phone: '',
   email: ''
 })
 
-const volunteerInterests = ['Уборка', 'Мониторинг', 'Образование', 'Организация']
+// Данные
+const suggestionStats = reactive({
+  total: 0,
+  today: 0,
+  implemented: 0
+})
+
 const selectedInterests = ref(['Уборка'])
+const intervalId = ref(null)
 
-// Состояния UI
-const showEmergencyModal = ref(false)
-const showVolunteerModal = ref(false)
-const showSuccess = ref(false)
-const showError = ref(false)
-const isSubmitting = ref(false)
+// Константы
+const quickActions = [
+  { label: 'Поделиться', icon: Share2, action: 'share', hasArrow: true, class: 'hover:bg-blue-500/20' },
+  { label: 'Подписаться', icon: Bell, action: 'subscribe', hasArrow: false, class: 'hover:bg-emerald-500/20' },
+  { label: 'Пожертвовать', icon: Heart, action: 'donate', hasArrow: true, class: 'hover:bg-red-500/20' }
+]
 
-// Обработка быстрых действий
-const handleQuickAction = (action) => {
-  switch (action.action) {
-    case 'share':
-      navigator.share?.({
-        title: 'Защитим озёра Петропавловска',
-        text: 'Присоединяйтесь к движению за сохранение водных ресурсов нашего города',
-        url: window.location.href
-      })
-      break
-    case 'subscribe':
-      // Логика подписки
-      break
-    case 'donate':
-      // Логика доната
-      break
-  }
-}
+const suggestionCategories = [
+  { value: 'cleaning', label: 'Уборка', emoji: '🧹', defaultClass: 'bg-white/10 border-white/30 text-white hover:bg-white/20', selectedClass: 'bg-blue-500 border-blue-500 text-white' },
+  { value: 'monitoring', label: 'Мониторинг', emoji: '📊', defaultClass: 'bg-white/10 border-white/30 text-white hover:bg-white/20', selectedClass: 'bg-emerald-500 border-emerald-500 text-white' },
+  { value: 'education', label: 'Образование', emoji: '🎓', defaultClass: 'bg-white/10 border-white/30 text-white hover:bg-white/20', selectedClass: 'bg-purple-500 border-purple-500 text-white' },
+  { value: 'infrastructure', label: 'Инфраструктура', emoji: '🏗️', defaultClass: 'bg-white/10 border-white/30 text-white hover:bg-white/20', selectedClass: 'bg-orange-500 border-orange-500 text-white' }
+]
 
-// Функция отправки предложения
-const submitSuggestion = async () => {
-  if (isSubmitting.value) return
-  
-  isSubmitting.value = true
-  showError.value = false
+const volunteerInterests = ['Уборка', 'Мониторинг', 'Образование', 'Организация']
 
-  try {
-    const response = await fetch(`${API_BASE}/suggestions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: suggestionForm.value.name,
-        message: suggestionForm.value.message,
-        lake: suggestionForm.value.lake,
-        category: suggestionForm.value.category
-      })
-    })
-
-    if (response.ok) {
-      showSuccess.value = true
-      suggestionForm.value = { name: '', lake: '', message: '', category: 'cleaning' }
-      suggestionStats.total++
-      suggestionStats.today++
-      
-      setTimeout(() => {
-        showSuccess.value = false
-      }, 3000)
-    } else {
-      throw new Error('Server error')
-    }
-  } catch (error) {
-    console.error('Error submitting suggestion:', error)
-    showError.value = true
-    
-    setTimeout(() => {
-      showError.value = false
-    }, 3000)
-  } finally {
-    isSubmitting.value = false
-  }
-}
-
-// Функция отправки экстренного уведомления
-const sendEmergencyAlert = async () => {
-  try {
-    console.log('🚨 Отправка экстренного уведомления:', emergencyAlert.value)
-    
-    await fetch(`${API_BASE}/emergency-alerts`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(emergencyAlert.value)
-    })
-
-    showEmergencyModal.value = false
-    emergencyAlert.value = {
-      type: '',
-      lake: '',
-      location: '',
-      details: '',
-      reporter_name: ''
-    }
-    
-    alert('🚨 Экстренное уведомление отправлено! Службы оповещены!')
-  } catch (error) {
-    console.error('❌ Ошибка при отправке экстренного уведомления:', error)
-    alert('❌ Ошибка при отправке экстренного уведомления')
-  }
-}
-
-// Регистрация волонтёра
-const registerVolunteer = async () => {
-  try {
-    const response = await fetch(`${API_BASE}/volunteers`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...volunteerForm.value,
-        interests: selectedInterests.value
-      })
-    })
-
-    if (response.ok) {
-      showVolunteerModal.value = false
-      volunteerForm.value = { name: '', phone: '', email: '' }
-      selectedInterests.value = ['Уборка']
-      alert('🎉 Спасибо за регистрацию! Мы свяжемся с вами в ближайшее время.')
-    }
-  } catch (error) {
-    console.error('Ошибка при регистрации волонтёра:', error)
-  }
-}
-
-// Переключение интересов волонтёра
-const toggleInterest = (interest) => {
-  const index = selectedInterests.value.indexOf(interest)
-  if (index > -1) {
-    selectedInterests.value.splice(index, 1)
-  } else {
-    selectedInterests.value.push(interest)
-  }
-}
-
-// Данные для секции проблем
 const problems = [
   {
     icon: Factory,
@@ -835,7 +673,6 @@ const problems = [
   },
 ]
 
-// Данные об озёрах
 const lakes = [
   {
     name: "Озеро Пестрое",
@@ -865,6 +702,272 @@ const lakes = [
     image: "https://images.unsplash.com/photo-1699078109661-0269200668ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbnZpcm9ubWVudGFsJTIwcHJvdGVjdGlvbnxlbnwxfHx8fDE3NjM0MjEwNjV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
   },
 ]
+
+// Lifecycle hooks
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  loadSuggestionStats() // Загружаем статистику при монтировании
+  
+  // Обновляем статистику каждые 30 секунд
+  intervalId.value = setInterval(loadSuggestionStats, 30000)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+  if (intervalId.value) clearInterval(intervalId.value)
+})
+
+// Методы
+const handleScroll = () => {
+  const scrollY = window.scrollY
+  const windowHeight = window.innerHeight
+  
+  // Прогресс скролла от 0 до 1
+  scrollProgress.value = Math.min(scrollY / (windowHeight * 0.8), 1)
+  parallax.value = scrollY / 1000
+}
+
+// Функция для загрузки статистики предложений
+const loadSuggestionStats = async () => {
+  try {
+    // Пробуем новый endpoint /stats
+    const response = await fetch(`${API_BASE}/stats`)
+    
+    if (!response.ok) {
+      // Если /stats не работает, пробуем загрузить все предложения и посчитать
+      const suggestionsResponse = await fetch(`${API_BASE}/suggestions`)
+      if (suggestionsResponse.ok) {
+        const suggestions = await suggestionsResponse.json()
+        
+        // Считаем статистику на клиенте
+        const today = new Date().toDateString()
+        const todayCount = suggestions.filter(s => {
+          const suggestionDate = new Date(s.date).toDateString()
+          return suggestionDate === today
+        }).length
+        
+        const implementedCount = suggestions.filter(s => 
+          s.status === 'implemented' || s.status === 'completed'
+        ).length
+        
+        suggestionStats.total = suggestions.length
+        suggestionStats.today = todayCount
+        suggestionStats.implemented = implementedCount
+      }
+    } else {
+      // Если /stats работает, используем его
+      const data = await response.json()
+      
+      // Адаптируем под разные форматы ответа
+      if (data.total !== undefined) {
+        // Формат: { total: 11, today: 1, implemented: 0 }
+        suggestionStats.total = data.total || 0
+        suggestionStats.today = data.today || 0
+        suggestionStats.implemented = data.implemented || 0
+      } else if (data.count !== undefined) {
+        // Формат: { count: 11 }
+        suggestionStats.total = data.count
+        suggestionStats.today = 1 // Временное значение
+        suggestionStats.implemented = 0 // Временное значение
+      }
+    }
+  } catch (error) {
+    console.error('Ошибка загрузки статистики:', error)
+    
+    // Fallback значения на случай ошибки
+    suggestionStats.total = 11 // Ваше текущее количество
+    suggestionStats.today = 1
+    suggestionStats.implemented = 0
+  }
+}
+
+const toggleForm = () => {
+  isFormCollapsed.value = !isFormCollapsed.value
+}
+
+const scrollToProblems = () => {
+  const problemsSection = document.getElementById('problems')
+  if (problemsSection) {
+    problemsSection.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
+}
+
+const handleQuickAction = (action) => {
+  switch (action.action) {
+    case 'share':
+      if (navigator.share) {
+        navigator.share({
+          title: 'Защитим озёра Петропавловска',
+          text: 'Присоединяйтесь к движению за сохранение водных ресурсов нашего города',
+          url: window.location.href
+        })
+      } else {
+        // Fallback для браузеров без поддержки Web Share API
+        navigator.clipboard.writeText(window.location.href)
+          .then(() => alert('Ссылка скопирована в буфер обмена!'))
+          .catch(() => alert('Ссылка: ' + window.location.href))
+      }
+      break
+    case 'subscribe':
+      alert('Функция подписки в разработке')
+      break
+    case 'donate':
+      alert('Функция пожертвований в разработке')
+      break
+  }
+}
+
+// Функция отправки предложения
+const submitSuggestion = async () => {
+  if (isSubmitting.value) return
+  
+  // Валидация формы
+  if (!suggestionForm.value.name.trim() || !suggestionForm.value.message.trim()) {
+    showError.value = true
+    setTimeout(() => showError.value = false, 3000)
+    return
+  }
+  
+  isSubmitting.value = true
+  showError.value = false
+  showSuccess.value = false
+
+  try {
+    const response = await fetch(`${API_BASE}/suggestions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: suggestionForm.value.name.trim(),
+        message: suggestionForm.value.message.trim(),
+        lake: suggestionForm.value.lake || 'Не указано',
+        category: suggestionForm.value.category,
+        status: 'new',
+        likes: 0,
+        date: new Date().toISOString()
+      })
+    })
+
+    if (response.ok) {
+      showSuccess.value = true
+      suggestionForm.value = { name: '', lake: '', message: '', category: 'cleaning' }
+      
+      // Обновляем статистику после успешной отправки
+      await loadSuggestionStats()
+      
+      // Сворачиваем форму через 3 секунды
+      setTimeout(() => {
+        showSuccess.value = false
+        isFormCollapsed.value = true
+      }, 3000)
+    } else {
+      const errorData = await response.json()
+      throw new Error(errorData.message || 'Server error')
+    }
+  } catch (error) {
+    console.error('Error submitting suggestion:', error)
+    showError.value = true
+    
+    setTimeout(() => {
+      showError.value = false
+    }, 3000)
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+const sendEmergencyAlert = async () => {
+  try {
+    // Валидация
+    if (!emergencyAlert.value.type || !emergencyAlert.value.lake || 
+        !emergencyAlert.value.location || !emergencyAlert.value.details) {
+      alert('Пожалуйста, заполните все обязательные поля')
+      return
+    }
+    
+    console.log('🚨 Отправка экстренного уведомления:', emergencyAlert.value)
+    
+    const response = await fetch(`${API_BASE}/emergency-alerts`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+      },
+      body: JSON.stringify({
+        ...emergencyAlert.value,
+        reporter_name: emergencyAlert.value.reporter_name || 'Аноним',
+        timestamp: new Date().toISOString(),
+        status: 'new'
+      })
+    })
+
+    if (response.ok) {
+      showEmergencyModal.value = false
+      emergencyAlert.value = {
+        type: '',
+        lake: '',
+        location: '',
+        details: '',
+        reporter_name: ''
+      }
+      
+      alert('🚨 Экстренное уведомление отправлено! Службы оповещены!')
+    } else {
+      throw new Error('Failed to send alert')
+    }
+  } catch (error) {
+    console.error('❌ Ошибка при отправке экстренного уведомления:', error)
+    alert('❌ Ошибка при отправке экстренного уведомления')
+  }
+}
+
+const registerVolunteer = async () => {
+  try {
+    // Валидация
+    if (!volunteerForm.value.name.trim() || !volunteerForm.value.phone.trim()) {
+      alert('Пожалуйста, заполните обязательные поля')
+      return
+    }
+    
+    const response = await fetch(`${API_BASE}/volunteers`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...volunteerForm.value,
+        interests: selectedInterests.value,
+        registration_date: new Date().toISOString(),
+        status: 'new'
+      })
+    })
+
+    if (response.ok) {
+      showVolunteerModal.value = false
+      volunteerForm.value = { name: '', phone: '', email: '' }
+      selectedInterests.value = ['Уборка']
+      alert('🎉 Спасибо за регистрацию! Мы свяжемся с вами в ближайшее время.')
+    } else {
+      throw new Error('Failed to register volunteer')
+    }
+  } catch (error) {
+    console.error('Ошибка при регистрации волонтёра:', error)
+    alert('Ошибка при регистрации. Пожалуйста, попробуйте еще раз.')
+  }
+}
+
+const toggleInterest = (interest) => {
+  const index = selectedInterests.value.indexOf(interest)
+  if (index > -1) {
+    selectedInterests.value.splice(index, 1)
+  } else {
+    selectedInterests.value.push(interest)
+  }
+}
 
 // Вспомогательные функции для цветов
 const getSeverityColor = (severity) => {
@@ -905,6 +1008,12 @@ const getStatusColor = (status) => {
       return "bg-gray-100 text-gray-800"
   }
 }
+
+// Вычисляемые свойства
+const progressPercentage = computed(() => {
+  const percentage = (suggestionStats.total / 1000) * 100
+  return Math.min(percentage, 100)
+})
 </script>
 
 <style scoped>
