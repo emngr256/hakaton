@@ -260,184 +260,187 @@
           </div>
         </div>
 
-        <!-- ПРАВАЯ КОЛОНКА: Формы и управление (СТИКИ БЛОКИ) -->
-        <div class="lg:w-1/3 space-y-6">
-          <!-- Пользовательская панель -->
-          <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-6">
-            <div class="flex flex-col items-center gap-4">
-              <div v-if="user" class="flex items-center gap-3 w-full">
-                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  {{ user.name.charAt(0).toUpperCase() }}
-                </div>
-                <div class="flex-1">
-                  <span class="text-gray-700 font-medium block">{{ user.name }}</span>
-                  <span class="text-sm text-gray-500">{{ user.email }}</span>
-                </div>
-                <button 
-                  @click="logout"
-                  class="text-gray-500 hover:text-red-500 transition-colors p-2"
-                  title="Выйти"
-                >
-                  🚪
-                </button>
-              </div>
-              
-              <div v-else class="text-center w-full">
-                <div class="text-lg font-semibold text-gray-700 mb-3">Участвуйте в обсуждении!</div>
-                <button 
-                  @click="showLoginModal = true"
-                  class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  <span>💧</span>
-                  <span>Войти для участия</span>
-                </button>
-                <p class="text-sm text-gray-500 mt-3">
-                  Войдите, чтобы голосовать, комментировать и предлагать идеи
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Форма для создания предложения -->
-          <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-[180px]" id="suggestion-form">
-            <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-              <span class="text-2xl">🌊</span>
-              Новое предложение
-            </h2>
-            <form @submit.prevent="submitSuggestion" class="space-y-4">
-              <div>
-                <label class="text-gray-700 text-sm font-medium mb-2 block">Ваше имя *</label>
-                <input 
-                  v-model="newSuggestion.name"
-                  type="text" 
-                  placeholder="Как к вам обращаться?"
-                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
-                  :readonly="!!user"
-                  required
-                >
-              </div>
-              
-              <div>
-                <label class="text-gray-700 text-sm font-medium mb-2 block">Категория *</label>
-                <select 
-                  v-model="newSuggestion.category"
-                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
-                  required
-                >
-                  <option value="">Выберите категорию</option>
-                  <option value="cleaning">🧹 Уборка берегов</option>
-                  <option value="protection">🛡️ Защита экологии</option>
-                  <option value="monitoring">📊 Мониторинг качества воды</option>
-                  <option value="infrastructure">🏗️ Инфраструктура</option>
-                  <option value="education">📚 Просвещение</option>
-                  <option value="fishing">🎣 Рыболовство</option>
-                  <option value="recreation">🏕️ Отдых и туризм</option>
-                  <option value="other">💡 Другое</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="text-gray-700 text-sm font-medium mb-2 block">Ваше предложение *</label>
-                <textarea 
-                  v-model="newSuggestion.message"
-                  placeholder="Опишите вашу идею по улучшению озер Петропавловска..."
-                  rows="4"
-                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 resize-none"
-                  required
-                ></textarea>
-              </div>
-
-              <button 
-                type="submit"
-                :disabled="isSubmitting"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span v-if="isSubmitting">⏳ Отправка предложения...</span>
-                <span v-else>💧 Опубликовать предложение</span>
-              </button>
-            </form>
-
-            <!-- Уведомления -->
-            <div v-if="showSuccess" class="mt-4 p-3 bg-green-500/90 text-white rounded-lg text-center">
-              ✅ Спасибо! Ваше предложение опубликовано.
-            </div>
-            <div v-if="showError" class="mt-4 p-3 bg-red-500/90 text-white rounded-lg text-center">
-              ❌ Ошибка при отправке. Попробуйте еще раз.
-            </div>
-          </div>
-
-          <!-- Панель админа -->
-          <div v-if="!isAdmin || suggestions.length > 0" class="bg-white rounded-2xl shadow-lg p-6 sticky top-[500px]">
-            <div class="flex flex-col gap-4">
-              <div>
-                <h2 class="text-xl font-semibold">Панель управления</h2>
-                <p class="text-gray-600 text-sm">Все голосуют, админ управляет</p>
-              </div>
-              
-              <div v-if="!isAdmin" class="space-y-4">
-                <button 
-                  @click="showAdminLogin = !showAdminLogin"
-                  class="w-full px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-colors flex items-center justify-center gap-2"
-                >
-                  <span>👑</span>
-                  <span>{{ showAdminLogin ? 'Скрыть вход' : 'Вход для админа' }}</span>
-                </button>
-                
-                <!-- Форма входа админа -->
-                <div v-if="showAdminLogin" class="p-4 bg-gray-50 rounded-lg">
-                  <h3 class="font-semibold mb-3">Вход для администратора</h3>
-                  <form @submit.prevent="handleAdminLogin" class="space-y-3">
-                    <input
-                      v-model="adminLoginForm.login"
-                      type="text"
-                      placeholder="Логин"
-                      class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
-                    />
-                    <input
-                      v-model="adminLoginForm.password"
-                      type="password"
-                      placeholder="Пароль"
-                      class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
-                    />
-                    <button
-                      type="submit"
-                      class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300"
-                    >
-                      Войти
-                    </button>
-                  </form>
-                </div>
-              </div>
-              
-              <div v-else class="space-y-4">
-                <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                  <span class="text-blue-600 font-semibold">👑 Администратор</span>
+        <!-- ПРАВАЯ КОЛОНКА: Формы и управление -->
+        <!-- ВСЕ БЛОКИ В ОДНОМ STICKY-КОНТЕЙНЕРЕ -->
+        <div class="lg:w-1/3">
+          <div class="lg:sticky lg:top-6 space-y-6">
+            <!-- Пользовательская панель -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+              <div class="flex flex-col items-center gap-4">
+                <div v-if="user" class="flex items-center gap-3 w-full">
+                  <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    {{ user.name.charAt(0).toUpperCase() }}
+                  </div>
+                  <div class="flex-1">
+                    <span class="text-gray-700 font-medium block">{{ user.name }}</span>
+                    <span class="text-sm text-gray-500">{{ user.email }}</span>
+                  </div>
                   <button 
-                    @click="handleAdminLogout"
-                    class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors text-sm"
+                    @click="logout"
+                    class="text-gray-500 hover:text-red-500 transition-colors p-2"
+                    title="Выйти"
                   >
-                    Выйти
+                    🚪
                   </button>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-2">
-                  <div class="text-center p-2 bg-green-50 rounded-lg">
-                    <div class="text-lg font-bold text-green-600">{{ suggestions.length }}</div>
-                    <div class="text-xs text-gray-600">Предложений</div>
+                <div v-else class="text-center w-full">
+                  <div class="text-lg font-semibold text-gray-700 mb-3">Участвуйте в обсуждении!</div>
+                  <button 
+                    @click="showLoginModal = true"
+                    class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+                  >
+                    <span>💧</span>
+                    <span>Войти для участия</span>
+                  </button>
+                  <p class="text-sm text-gray-500 mt-3">
+                    Войдите, чтобы голосовать, комментировать и предлагать идеи
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Форма для создания предложения -->
+            <div class="bg-white rounded-2xl shadow-lg p-6" id="suggestion-form">
+              <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                <span class="text-2xl">🌊</span>
+                Новое предложение
+              </h2>
+              <form @submit.prevent="submitSuggestion" class="space-y-4">
+                <div>
+                  <label class="text-gray-700 text-sm font-medium mb-2 block">Ваше имя *</label>
+                  <input 
+                    v-model="newSuggestion.name"
+                    type="text" 
+                    placeholder="Как к вам обращаться?"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+                    :readonly="!!user"
+                    required
+                  >
+                </div>
+                
+                <div>
+                  <label class="text-gray-700 text-sm font-medium mb-2 block">Категория *</label>
+                  <select 
+                    v-model="newSuggestion.category"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+                    required
+                  >
+                    <option value="">Выберите категорию</option>
+                    <option value="cleaning">🧹 Уборка берегов</option>
+                    <option value="protection">🛡️ Защита экологии</option>
+                    <option value="monitoring">📊 Мониторинг качества воды</option>
+                    <option value="infrastructure">🏗️ Инфраструктура</option>
+                    <option value="education">📚 Просвещение</option>
+                    <option value="fishing">🎣 Рыболовство</option>
+                    <option value="recreation">🏕️ Отдых и туризм</option>
+                    <option value="other">💡 Другое</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="text-gray-700 text-sm font-medium mb-2 block">Ваше предложение *</label>
+                  <textarea 
+                    v-model="newSuggestion.message"
+                    placeholder="Опишите вашу идею по улучшению озер Петропавловска..."
+                    rows="4"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 resize-none"
+                    required
+                  ></textarea>
+                </div>
+
+                <button 
+                  type="submit"
+                  :disabled="isSubmitting"
+                  class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span v-if="isSubmitting">⏳ Отправка предложения...</span>
+                  <span v-else>💧 Опубликовать предложение</span>
+                </button>
+              </form>
+
+              <!-- Уведомления -->
+              <div v-if="showSuccess" class="mt-4 p-3 bg-green-500/90 text-white rounded-lg text-center">
+                ✅ Спасибо! Ваше предложение опубликовано.
+              </div>
+              <div v-if="showError" class="mt-4 p-3 bg-red-500/90 text-white rounded-lg text-center">
+                ❌ Ошибка при отправке. Попробуйте еще раз.
+              </div>
+            </div>
+
+            <!-- Панель админа -->
+            <div v-if="!isAdmin || suggestions.length > 0" class="bg-white rounded-2xl shadow-lg p-6">
+              <div class="flex flex-col gap-4">
+                <div>
+                  <h2 class="text-xl font-semibold">Панель управления</h2>
+                  <p class="text-gray-600 text-sm">Все голосуют, админ управляет</p>
+                </div>
+                
+                <div v-if="!isAdmin" class="space-y-4">
+                  <button 
+                    @click="showAdminLogin = !showAdminLogin"
+                    class="w-full px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-colors flex items-center justify-center gap-2"
+                  >
+                    <span>👑</span>
+                    <span>{{ showAdminLogin ? 'Скрыть вход' : 'Вход для админа' }}</span>
+                  </button>
+                  
+                  <!-- Форма входа админа -->
+                  <div v-if="showAdminLogin" class="p-4 bg-gray-50 rounded-lg">
+                    <h3 class="font-semibold mb-3">Вход для администратора</h3>
+                    <form @submit.prevent="handleAdminLogin" class="space-y-3">
+                      <input
+                        v-model="adminLoginForm.login"
+                        type="text"
+                        placeholder="Логин"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                      />
+                      <input
+                        v-model="adminLoginForm.password"
+                        type="password"
+                        placeholder="Пароль"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                      />
+                      <button
+                        type="submit"
+                        class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300"
+                      >
+                        Войти
+                      </button>
+                    </form>
                   </div>
-                  <div class="text-center p-2 bg-yellow-50 rounded-lg">
-                    <div class="text-lg font-bold text-yellow-600">{{ newSuggestionsCount }}</div>
-                    <div class="text-xs text-gray-600">Новых</div>
+                </div>
+                
+                <div v-else class="space-y-4">
+                  <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                    <span class="text-blue-600 font-semibold">👑 Администратор</span>
+                    <button 
+                      @click="handleAdminLogout"
+                      class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors text-sm"
+                    >
+                      Выйти
+                    </button>
                   </div>
-                  <div class="text-center p-2 bg-blue-50 rounded-lg">
-                    <div class="text-lg font-bold text-blue-600">{{ totalLikes }}</div>
-                    <div class="text-xs text-gray-600">Голосов</div>
-                  </div>
-                  <div class="text-center p-2 bg-purple-50 rounded-lg">
-                    <div class="text-lg font-bold text-purple-600">{{ uniqueAuthors }}</div>
-                    <div class="text-xs text-gray-600">Участников</div>
+                  
+                  <div class="grid grid-cols-2 gap-2">
+                    <div class="text-center p-2 bg-green-50 rounded-lg">
+                      <div class="text-lg font-bold text-green-600">{{ suggestions.length }}</div>
+                      <div class="text-xs text-gray-600">Предложений</div>
+                    </div>
+                    <div class="text-center p-2 bg-yellow-50 rounded-lg">
+                      <div class="text-lg font-bold text-yellow-600">{{ newSuggestionsCount }}</div>
+                      <div class="text-xs text-gray-600">Новых</div>
+                    </div>
+                    <div class="text-center p-2 bg-blue-50 rounded-lg">
+                      <div class="text-lg font-bold text-blue-600">{{ totalLikes }}</div>
+                      <div class="text-xs text-gray-600">Голосов</div>
+                    </div>
+                    <div class="text-center p-2 bg-purple-50 rounded-lg">
+                      <div class="text-lg font-bold text-purple-600">{{ uniqueAuthors }}</div>
+                      <div class="text-xs text-gray-600">Участников</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -579,7 +582,7 @@ const userLikes = ref<number[]>([])
 
 const API_BASE = 'https://hakaton-lakes-back.onrender.com/api'
 
-// Категории - ТЕПЕРЬ С ИКОНКАМИ КАК В SELECT
+// Категории
 const categories = ref<Category[]>([
   { id: 'all', name: 'Все предложения', icon: '🌊', count: 0 },
   { id: 'cleaning', name: 'Уборка берегов', icon: '🧹', count: 0 },
@@ -611,7 +614,6 @@ const checkAuth = async () => {
           headers: { 'Authorization': `Bearer ${token}` }
         })
         user.value = data.user
-        // Автозаполнение имени в форме
         newSuggestion.value.name = user.value.name
       }
     }
@@ -643,13 +645,11 @@ const login = async () => {
       localStorage.setItem('authToken', data.token)
     }
     
-    // Автозаполнение имени в форме
     newSuggestion.value.name = user.value.name
     
     showLoginModal.value = false
     loginForm.value = { name: '', email: '' }
     
-    // Показать уведомление
     showSuccess.value = true
     setTimeout(() => showSuccess.value = false, 3000)
   } catch (error: any) {
@@ -679,7 +679,6 @@ const logout = async () => {
     if (process.client) {
       localStorage.removeItem('authToken')
     }
-    // Сброс имени в форме
     newSuggestion.value.name = ''
   }
 }
@@ -713,14 +712,14 @@ const loadSuggestions = async () => {
     console.log('Loaded suggestions:', data.length)
   } catch (error) {
     console.error('Error loading suggestions:', error)
-    // Для разработки - тестовые данные с РАЗНЫМИ КАТЕГОРИЯМИ
+    // Тестовые данные
     if (process.env.NODE_ENV === 'development') {
       console.log('Using mock data for development')
       suggestions.value = [
         {
           id: 1,
           name: 'Алексей Петров',
-          message: 'Предлагаю организовать субботники по уборке берегов озера Бузовое. Можно привлечь волонтеров и установить контейнеры для раздельного сбора мусора.',
+          message: 'Предлагаю организовать субботники по уборке берегов озера Бузовое.',
           category: 'cleaning',
           date: new Date('2024-01-15T10:30:00').toISOString(),
           likes: 12,
@@ -738,7 +737,7 @@ const loadSuggestions = async () => {
         {
           id: 2,
           name: 'Екатерина Сидорова',
-          message: 'Необходимо установить информационные стенды о правилах поведения у озер и важности сохранения экосистемы.',
+          message: 'Необходимо установить информационные стенды о правилах поведения у озер.',
           category: 'education',
           date: new Date('2024-01-14T09:15:00').toISOString(),
           likes: 8,
@@ -748,63 +747,13 @@ const loadSuggestions = async () => {
         {
           id: 3,
           name: 'Иван Козлов',
-          message: 'Предлагаю создать систему мониторинга качества воды в озерах с публичной доступностью данных онлайн.',
+          message: 'Предлагаю создать систему мониторинга качества воды в озерах.',
           category: 'monitoring',
           date: new Date('2024-01-13T16:45:00').toISOString(),
           likes: 15,
           status: 'planned',
           is_pinned: false,
           priority: 'high'
-        },
-        {
-          id: 4,
-          name: 'Сергей Волков',
-          message: 'Нужно благоустроить пляжную зону на озере Бузовое: установить скамейки, урны, беседки.',
-          category: 'infrastructure',
-          date: new Date('2024-01-12T11:20:00').toISOString(),
-          likes: 10,
-          status: 'new',
-          is_pinned: false
-        },
-        {
-          id: 5,
-          name: 'Ольга Смирнова',
-          message: 'Предлагаю запретить мойку автомобилей у озер и установить штрафы за нарушение.',
-          category: 'protection',
-          date: new Date('2024-01-11T14:30:00').toISOString(),
-          likes: 18,
-          status: 'reviewed',
-          is_pinned: false
-        },
-        {
-          id: 6,
-          name: 'Дмитрий Попов',
-          message: 'Организовать зоны для рыбалки с правилами и контролем за соблюдением норм вылова.',
-          category: 'fishing',
-          date: new Date('2024-01-10T09:45:00').toISOString(),
-          likes: 7,
-          status: 'new',
-          is_pinned: false
-        },
-        {
-          id: 7,
-          name: 'Анна Кузнецова',
-          message: 'Разработать туристические маршруты вокруг озер с информационными указателями.',
-          category: 'recreation',
-          date: new Date('2024-01-09T16:10:00').toISOString(),
-          likes: 9,
-          status: 'planned',
-          is_pinned: false
-        },
-        {
-          id: 8,
-          name: 'Михаил Орлов',
-          message: 'Установить систему видеонаблюдения для предотвращения мусора и вандализма.',
-          category: 'other',
-          date: new Date('2024-01-08T13:25:00').toISOString(),
-          likes: 6,
-          status: 'new',
-          is_pinned: false
         }
       ]
       updateCategoryCounts()
@@ -828,14 +777,11 @@ const updateCategoryCounts = () => {
       category.count = suggestions.value.filter(s => s.category === category.id).length
     }
   })
-  
-  console.log('Category counts updated:', categories.value.map(c => `${c.name}: ${c.count}`))
 }
 
 // Выбор категории
 const selectCategory = (categoryId: string) => {
   activeCategory.value = categoryId
-  console.log('Selected category:', categoryId, getCategoryName(categoryId))
 }
 
 // Фильтрация предложений по категории
@@ -844,27 +790,19 @@ const filteredSuggestions = computed(() => {
   
   let filtered = [...suggestions.value]
   
-  // Фильтрация по категории
   if (activeCategory.value !== 'all') {
     filtered = filtered.filter(s => s.category === activeCategory.value)
   }
   
-  console.log('Filtered suggestions for category', activeCategory.value, ':', filtered.length)
-  
-  // Сортировка
   return filtered.sort((a, b) => {
-    // Сначала закрепленные
     if (a.is_pinned && !b.is_pinned) return -1
     if (!a.is_pinned && b.is_pinned) return 1
     
-    // Затем с высоким приоритетом
     if (a.priority === 'high' && b.priority !== 'high') return -1
     if (a.priority !== 'high' && b.priority === 'high') return 1
     
-    // Затем по количеству лайков
     if ((b.likes || 0) !== (a.likes || 0)) return (b.likes || 0) - (a.likes || 0)
     
-    // Затем по дате (новые сначала)
     return new Date(b.date).getTime() - new Date(a.date).getTime()
   })
 })
@@ -878,7 +816,6 @@ const submitSuggestion = async () => {
   showSuccess.value = false
 
   try {
-    // Если пользователь авторизован, используем его данные
     const suggestionData = {
       ...newSuggestion.value,
       status: 'new',
@@ -900,9 +837,8 @@ const submitSuggestion = async () => {
     
     await loadSuggestions()
     
-    // Прокрутка к новому предложению
     setTimeout(() => {
-      const element = document.querySelector('.bg-white.rounded-2xl.shadow-lg')
+      const element = document.getElementById('suggestion-form')
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' })
       }
@@ -1152,11 +1088,6 @@ const scrollToSuggestionForm = () => {
   transform: translateY(-2px);
 }
 
-/* Анимация лайка */
-button:active {
-  transform: scale(0.95);
-}
-
 /* Стили для статусов */
 .border-l-blue-500 {
   border-left-color: #3b82f6;
@@ -1170,11 +1101,11 @@ button:active {
   border-left-color: #8b5cf6;
 }
 
-/* Стики панели справа */
-.sticky {
+/* Sticky контейнер для правой колонки */
+.lg\:sticky {
   position: -webkit-sticky;
   position: sticky;
-  z-index: 10;
+  align-self: flex-start;
 }
 
 /* Анимации */
@@ -1204,7 +1135,7 @@ button:active {
 
 /* Адаптивность */
 @media (max-width: 1024px) {
-  .sticky {
+  .lg\:sticky {
     position: static;
   }
 }
