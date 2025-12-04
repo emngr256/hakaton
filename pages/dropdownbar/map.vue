@@ -42,10 +42,32 @@
           attributionControl: false,
         }"
       >
+        <!-- Слой OpenStreetMap (стандартная карта) -->
         <LTileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          v-if="activeLayer === 'osm'"
+          :url="osmUrl"
           layer-type="base"
           name="OpenStreetMap"
+          :attribution="osmAttribution"
+        />
+        
+        <!-- Слой спутника -->
+        <LTileLayer
+          v-if="activeLayer === 'satellite'"
+          :url="satelliteUrl"
+          layer-type="base"
+          name="Спутник"
+          :attribution="satelliteAttribution"
+          :max-zoom="19"
+        />
+        
+        <!-- Слой топографии -->
+        <LTileLayer
+          v-if="activeLayer === 'topo'"
+          :url="topoUrl"
+          layer-type="base"
+          name="Топография"
+          :attribution="topoAttribution"
         />
         
         <!-- Маркеры для водоемов -->
@@ -74,6 +96,49 @@
           />
         </LMarker>
       </LMap>
+    </div>
+
+    <!-- Панель переключения слоев карты -->
+    <div class="absolute top-4 right-4 z-[1000] bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-3 border border-gray-200">
+      <h3 class="font-bold mb-3 text-sm">Слои карты</h3>
+      <div class="space-y-2">
+        <button 
+          @click="setActiveLayer('osm')"
+          :class="[
+            'flex items-center justify-between w-full px-3 py-2 rounded transition-all duration-200',
+            activeLayer === 'osm' 
+              ? 'bg-blue-100 text-blue-700 border border-blue-300' 
+              : 'hover:bg-gray-100 text-gray-700 border border-transparent'
+          ]"
+        >
+          <span class="text-sm">Стандартная</span>
+
+        </button>
+        
+        <button 
+          @click="setActiveLayer('satellite')"
+          :class="[
+            'flex items-center justify-between w-full px-3 py-2 rounded transition-all duration-200',
+            activeLayer === 'satellite' 
+              ? 'bg-blue-100 text-blue-700 border border-blue-300' 
+              : 'hover:bg-gray-100 text-gray-700 border border-transparent'
+          ]"
+        >
+          <span class="text-sm">Спутник</span>
+        </button>
+        
+        <button 
+          @click="setActiveLayer('topo')"
+          :class="[
+            'flex items-center justify-between w-full px-3 py-2 rounded transition-all duration-200',
+            activeLayer === 'topo' 
+              ? 'bg-blue-100 text-blue-700 border border-blue-300' 
+              : 'hover:bg-gray-100 text-gray-700 border border-transparent'
+          ]"
+        >
+          <span class="text-sm">Топография</span>
+        </button>
+      </div>
     </div>
 
     <!-- Легенда -->
@@ -126,6 +191,22 @@ const map = ref()
 const zoom = ref(11)
 const center = ref<[number, number]>([54.89, 69.10])
 const showInfo = ref(false)
+const activeLayer = ref<'osm' | 'satellite' | 'topo'>('osm')
+
+// URL и атрибуция для разных слоев карты
+const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+const osmAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+
+const satelliteUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+const satelliteAttribution = '&copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics, USDA FSA, USGS, Aerogrid, IGN, IGP, and the GIS User Community'
+
+const topoUrl = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'
+const topoAttribution = '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> contributors'
+
+// Функция переключения слоев
+const setActiveLayer = (layer: 'osm' | 'satellite' | 'topo') => {
+  activeLayer.value = layer
+}
 
 // Данные по водоемам
 const waterbodies = ref([
