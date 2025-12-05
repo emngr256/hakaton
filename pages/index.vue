@@ -125,11 +125,11 @@
                           v-model="suggestionForm.lake"
                           class="w-full px-3 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/30 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30 transition-all duration-200 text-sm"
                         >
-                          <option value="" class="text-gray-500">Выберите озеро</option>
-                          <option value="Озеро Пестрое">Озеро Пестрое</option>
-                          <option value="Озеро Белое">Озеро Белое</option>
-                          <option value="Озеро Круглое">Озеро Круглое</option>
-                          <option value="Другое">Другое озеро</option>
+                          <option value="" class="text-gray-900">Выберите озеро</option>
+                          <option value="Озеро Пестрое" class="text-gray-500">Озеро Пестрое</option>
+                          <option value="Озеро Белое" class="text-gray-500">Озеро Белое</option>
+                          <option value="Озеро Круглое" class="text-gray-500">Озеро Круглое</option>
+                          <option value="Другое" class="text-gray-500">Другое озеро</option>
                         </select>
                       </div>
                     </div>

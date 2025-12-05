@@ -131,10 +131,155 @@
       <slot />
     </main>
 
-    <!-- Footer (остается без изменений) -->
-    <footer id="contact" class="bg-gradient-to-br from-gray-900 via-blue-900 to-emerald-900 text-white relative overflow-hidden">
-      <!-- ... footer код остается без изменений ... -->
-    </footer>
+  <!-- Footer -->
+<footer id="contact" class="bg-gradient-to-br from-gray-900 via-blue-900 to-emerald-900 text-white relative overflow-hidden">
+  <!-- Декоративный фон -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute top-10 left-10 w-32 h-32 bg-blue-500 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-10 right-10 w-40 h-40 bg-emerald-500 rounded-full blur-3xl"></div>
+  </div>
+  
+  <div class="relative z-10">
+    <!-- Компактный футер -->
+    <div class="container mx-auto px-4 py-6 md:py-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <!-- Логотип и описание -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-emerald-500 rounded-xl flex items-center justify-center text-xl shadow-lg">
+              🌊
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white">Clean Waters</h3>
+              <p class="text-blue-300 text-xs font-medium">ЭКО-ЗАЩИТА ОЗЁР ПЕТРОПАВЛОВСКА</p>
+            </div>
+          </div>
+          <p class="text-blue-100 text-sm leading-relaxed">
+            Общественная инициатива по защите и восстановлению озёр города Петропавловска. Мы создаём устойчивое экологическое будущее вместе.
+          </p>
+          
+          <!-- Мини-статистика -->
+          <div class="grid grid-cols-3 gap-2 mt-4">
+            <div class="text-center p-3 bg-blue-800/20 rounded-lg border border-blue-700/30">
+              <div class="text-lg font-bold text-white">24+</div>
+              <div class="text-xs text-blue-300">Проектов</div>
+            </div>
+            <div class="text-center p-3 bg-blue-800/20 rounded-lg border border-blue-700/30">
+              <div class="text-lg font-bold text-white">8</div>
+              <div class="text-xs text-blue-300">Озёр</div>
+            </div>
+            <div class="text-center p-3 bg-blue-800/20 rounded-lg border border-blue-700/30">
+              <div class="text-lg font-bold text-white">150+</div>
+              <div class="text-xs text-blue-300">Волонтёров</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Контакты -->
+        <div>
+          <h4 class="text-white font-bold text-base mb-4 pb-2 border-b border-blue-700/30">Контакты</h4>
+          <div class="space-y-3">
+            <div class="flex items-center gap-2">
+              <Mail class="w-4 h-4 text-blue-400" />
+              <div class="text-sm">
+                <div class="text-blue-300 text-xs">Email</div>
+                <div class="text-white">mansur@email.com</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <Phone class="w-4 h-4 text-blue-400" />
+              <div class="text-sm">
+                <div class="text-blue-300 text-xs">Телефон</div>
+                <div class="text-white">+7 (XXX) XXX-XXX</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Навигация -->
+        <div>
+          <h4 class="text-white font-bold text-base mb-4 pb-2 border-b border-blue-700/30">Навигация</h4>
+          <nav class="space-y-2">
+            <NuxtLink 
+              v-for="item in menuItems"
+              :key="item.path"
+              :to="item.path"
+              class="flex items-center gap-2 text-blue-200 hover:text-white transition-colors text-sm group"
+            >
+              <span class="text-base">{{ item.icon }}</span>
+              <span>{{ item.label }}</span>
+            </NuxtLink>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Соцсети и ссылки -->
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 py-4 border-t border-blue-800/30">
+        <!-- Соцсети -->
+        <div class="flex gap-2">
+          <a 
+            href="https://aim-hktn.netlify.app/" 
+            class="w-10 h-10 bg-blue-800/20 rounded-lg flex items-center justify-center hover:bg-blue-700/30 transition-colors border border-blue-700/30"
+            aria-label="Netlify"
+            title="Netlify"
+          >
+            <Monitor class="w-4 h-4 text-blue-400" />
+          </a>
+          <a 
+            href="https://github.com/emngr256/hakaton/" 
+            class="w-10 h-10 bg-blue-800/20 rounded-lg flex items-center justify-center hover:bg-blue-700/30 transition-colors border border-blue-700/30"
+            aria-label="Frontend Github"
+            title="Frontend"
+          >
+            <Github class="w-4 h-4 text-blue-400" />
+          </a>
+          <a 
+            href="https://github.com/mansur2286969sgma/hakaton-lakes-back" 
+            class="w-10 h-10 bg-blue-800/20 rounded-lg flex items-center justify-center hover:bg-blue-700/30 transition-colors border border-blue-700/30"
+            aria-label="Backend Github"
+            title="Backend"
+          >
+            <Github class="w-4 h-4 text-blue-400" />
+          </a>
+        </div>
+
+        <!-- Копирайт -->
+        <div class="text-center">
+          <p class="text-blue-300 text-sm">
+            © {{ currentYear }} Clean Waters. С любовью к природе ❤️
+          </p>
+        </div>
+
+        <!-- Юридические ссылки -->
+        <div class="flex gap-4">
+          <NuxtLink 
+            to="/policy" 
+            class="text-blue-400 hover:text-white transition-colors text-xs"
+          >
+            Политика
+          </NuxtLink>
+          <NuxtLink 
+            to="/conditions" 
+            class="text-blue-400 hover:text-white transition-colors text-xs"
+          >
+            Условия
+          </NuxtLink>
+          <!-- Кнопка наверх -->
+          <button 
+            @click="scrollToTop"
+            class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-500 transition-colors text-white ml-2"
+            aria-label="Вернуться наверх"
+            title="Наверх"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
 
     <!-- Модальное окно авторизации -->
     <transition
@@ -562,4 +707,6 @@ html, body {
     display: flex;
   }
 }
+
+
 </style>
