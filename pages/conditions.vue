@@ -3,71 +3,71 @@
     <div class="container">
       <!-- Заголовок -->
       <header class="page-header">
-        <h1>Условия использования</h1>
-        <p class="last-updated">Последнее обновление: {{ currentDate }}</p>
+        <h1>Terms of Use</h1>
+        <p class="last-updated">Last updated: {{ currentDate }}</p>
       </header>
 
       <!-- Основное содержание -->
       <main class="content">
         <section class="section">
-          <h2>1. Общие положения</h2>
-          <p>Настоящие Условия использования регулируют отношения между Пользователем и Администрацией сайта.</p>
-          <p>Используя данный сайт, Вы соглашаетесь с настоящими Условиями.</p>
+          <h2>1. General Provisions</h2>
+          <p>These Terms of Use govern the relationship between the User and the Website Administration.</p>
+          <p>By using this website, you agree to these Terms.</p>
         </section>
 
         <section class="section">
-          <h2>2. Права и обязанности сторон</h2>
-          <h3>2.1. Пользователь обязуется:</h3>
+          <h2>2. Rights and Obligations of the Parties</h2>
+          <h3>2.1. The User agrees to:</h3>
           <ul>
-            <li>Не нарушать законодательство Республики Казахстан</li>
-            <li>Не размещать незаконный контент</li>
-            <li>Не совершать действия, которые могут нарушить работу сайта</li>
-            <li>Не использовать сайт для распространения спама</li>
+            <li>Comply with the legislation of the Republic of Kazakhstan</li>
+            <li>Not post illegal content</li>
+            <li>Not perform actions that may disrupt the operation of the website</li>
+            <li>Not use the website to distribute spam</li>
           </ul>
 
-          <h3>2.2. Администрация обязуется:</h3>
+        <h3>2.2. The Administration agrees to:</h3>
           <ul>
-            <li>Обеспечивать работоспособность сайта</li>
-            <li>Защищать персональные данные пользователей</li>
-            <li>Рассматривать обращения пользователей</li>
-          </ul>
-        </section>
-
-        <section class="section">
-          <h2>3. Интеллектуальная собственность</h2>
-          <p>Все материалы, размещенные на сайте, являются интеллектуальной собственностью Администрации, если не указано иное.</p>
-        </section>
-
-        <section class="section">
-          <h2>4. Ограничение ответственности</h2>
-          <p>Администрация не несет ответственности за:</p>
-          <ul>
-            <li>Действия пользователей</li>
-            <li>Содержание внешних сайтов</li>
-            <li>Временные технические сбои в работе сайта</li>
+            <li>Ensure the proper functioning of the website</li>
+            <li>Protect users’ personal data</li>
+            <li>Review user inquiries</li>
           </ul>
         </section>
 
         <section class="section">
-          <h2>5. Изменение условий</h2>
-          <p>Администрация оставляет за собой право изменять настоящие Условия в любое время.</p>
-          <p>Изменения вступают в силу с момента их публикации на сайте.</p>
+          <h2>3. Intellectual Property</h2>
+          <p>All materials posted on the website are the intellectual property of the Administration unless otherwise stated.</p>
         </section>
 
         <section class="section">
-          <h2>6. Контактная информация</h2>
-          <p>По всем вопросам обращайтесь:</p>
+          <h2>4. Limitation of Liability</h2>
+          <p>The Administration is not responsible for:</p>
+          <ul>
+            <li>User actions</li>
+            <li>Content of external websites</li>
+            <li>Temporary technical failures in the operation of the website</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>5. Amendments to the Terms</h2>
+          <p>The Administration reserves the right to modify these Terms at any time.</p>
+          <p>Changes take effect from the moment they are published on the website.</p>
+        </section>
+
+        <section class="section">
+          <h2>6. Contact Information</h2>
+          <p>For all inquiries, please contact:</p>
           <ul>
             <li>Email: example@company.com</li>
-            <li>Телефон: +7 (XXX) XXX-XX-XX</li>
-            <li>Адрес: г. Петропавловск, ул. Пушкина</li>
+            <li>Phone: +7 (XXX) XXX-XX-XX</li>
+            <li>Address: Petropavlovsk, Pushkina St.</li>
           </ul>
         </section>
       </main>
 
       <!-- Футер -->
       <footer class="page-footer">
-        <p>© {{ currentYear }} Все права защищены.</p>
+        <p>© {{ currentYear }} All rights reserved.</p>
       </footer>
     </div>
   </div>
@@ -78,7 +78,7 @@ export default {
   name: 'ConditionsPage',
   data() {
     return {
-      currentDate: new Date().toLocaleDateString('ru-RU'),
+      currentDate: new Date().toLocaleDateString('en-US'),
       currentYear: new Date().getFullYear()
     }
   }
