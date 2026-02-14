@@ -3,114 +3,114 @@
     <div class="container">
       <!-- Заголовок -->
       <header class="page-header">
-        <h1>Политика конфиденциальности</h1>
-        <p class="last-updated">Последнее обновление: {{ currentDate }}</p>
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last updated: {{ currentDate }}</p>
       </header>
 
       <!-- Основное содержание -->
       <main class="content">
         <section class="section">
-          <h2>1. Общие положения</h2>
-          <p>Настоящая Политика конфиденциальности регулирует порядок сбора, хранения, использования и раскрытия персональных данных Пользователей.</p>
-          <p>Используя данный сайт, Вы соглашаетесь с условиями настоящей Политики конфиденциальности.</p>
+          <h2>1. General Provisions</h2>
+          <p>This Privacy Policy regulates the procedure for collecting, storing, using, and disclosing the personal data of Users.</p>
+          <p>By using this website, you agree to the terms of this Privacy Policy.</p>
         </section>
 
         <section class="section">
-          <h2>2. Собираемая информация</h2>
-          <h3>2.1. Персональные данные:</h3>
+          <h2>2. Information We Collect</h2>
+          <h3>2.1. Personal data:</h3>
           <ul>
-            <li>Имя и контактная информация</li>
-            <li>Электронная почта</li>
-            <li>Номер телефона</li>
-            <li>Демографические данные</li>
+            <li>Name and contact information</li>
+            <li>Email address</li>
+            <li>Phone number</li>
+            <li>Demographic data</li>
           </ul>
 
-          <h3>2.2. Техническая информация:</h3>
+          <h3>2.2. Technical information:</h3>
           <ul>
-            <li>IP-адрес и данные о местоположении</li>
-            <li>Тип браузера и операционной системы</li>
-            <li>Время и дата посещения</li>
-            <li>Страницы, которые Вы просматриваете</li>
-          </ul>
-        </section>
-
-        <section class="section">
-          <h2>3. Цели сбора информации</h2>
-          <p>Мы используем собранную информацию для:</p>
-          <ul>
-            <li>Предоставления и улучшения наших услуг</li>
-            <li>Обратной связи с Пользователями</li>
-            <li>Анализа использования сайта</li>
-            <li>Персонализации контента</li>
-            <li>Отправки уведомлений и обновлений</li>
+            <li>IP address and location data</li>
+            <li>Browser type and operating system</li>
+            <li>Time and date of visit</li>
+            <li>Pages you view</li>
           </ul>
         </section>
 
         <section class="section">
-          <h2>4. Защита данных</h2>
-          <p>Мы принимаем необходимые организационные и технические меры для защиты Ваших персональных данных от:</p>
+          <h2>3. Purposes of Data Collection</h2>
+          <p>We use the collected information to:</p>
           <ul>
-            <li>Неавторизованного доступа</li>
-            <li>Изменения</li>
-            <li>Раскрытия</li>
-            <li>Уничтожения</li>
+            <li>Provide and improve our services</li>
+            <li>Communicate with Users</li>
+            <li>Analyze website usage</li>
+            <li>Personalize content</li>
+            <li>Send notifications and updates</li>
           </ul>
         </section>
 
         <section class="section">
-          <h2>5. Передача данных третьим лицам</h2>
-          <p>Мы не передаем Ваши персональные данные третьим лицам, за исключением:</p>
+          <h2>4. Data Protection</h2>
+          <p>We take the necessary organizational and technical measures to protect your personal data from:</p>
           <ul>
-            <li>С Вашего явного согласия</li>
-            <li>По требованию законодательства</li>
-            <li>Для защиты наших законных прав</li>
-            <li>Партнерам, оказывающим услуги от нашего имени</li>
+            <li>Unauthorized access</li>
+            <li>Modification</li>
+            <li>Disclosure</li>
+            <li>Destruction</li>
           </ul>
         </section>
 
         <section class="section">
-          <h2>6. Файлы cookies</h2>
-          <p>Мы используем файлы cookies для:</p>
+          <h2>5. Disclosure to Third Parties</h2>
+          <p>We do not share your personal data with third parties, except in the following cases:</p>
           <ul>
-            <li>Запоминания Ваших предпочтений</li>
-            <li>Анализа трафика сайта</li>
-            <li>Улучшения пользовательского опыта</li>
-          </ul>
-          <p>Вы можете отключить cookies в настройках браузера.</p>
-        </section>
-
-        <section class="section">
-          <h2>7. Права Пользователей</h2>
-          <p>Вы имеете право:</p>
-          <ul>
-            <li>На доступ к своим персональным данным</li>
-            <li>На исправление неточных данных</li>
-            <li>На удаление персональных данных</li>
-            <li>На отзыв согласия на обработку</li>
-            <li>На перенос данных</li>
+            <li>With your explicit consent</li>
+            <li>When required by law</li>
+            <li>To protect our legal rights</li>
+            <li>With partners who provide services on our behalf</li>
           </ul>
         </section>
 
         <section class="section">
-          <h2>8. Изменения в Политике</h2>
-          <p>Мы оставляем за собой право вносить изменения в настоящую Политику конфиденциальности.</p>
-          <p>Об изменениях мы уведомим путем размещения новой версии Политики на сайте.</p>
+          <h2>6. Cookies</h2>
+          <p>We use cookies to:</p>
+          <ul>
+            <li>Remember your preferences</li>
+            <li>Analyze website traffic</li>
+            <li>Improve user experience</li>
+          </ul>
+          <p>You can disable cookies in your browser settings.</p>
         </section>
 
         <section class="section">
-          <h2>9. Контактная информация</h2>
-          <p>По вопросам, связанным с обработкой персональных данных, обращайтесь:</p>
+          <h2>7. User Rights</h2>
+          <p>You have the right to:</p>
+          <ul>
+            <li>Access your personal data</li>
+            <li>Correct inaccurate data</li>
+            <li>Delete your personal data</li>
+            <li>Withdraw consent for processing</li>
+            <li>Data portability</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>8. Policy Changes</h2>
+          <p>We reserve the right to make changes to this Privacy Policy.</p>
+          <p>We will notify you of changes by posting a new version of the Policy on the website.</p>
+        </section>
+
+        <section class="section">
+          <h2>9. Contact Information</h2>
+          <p>If you have questions related to the processing of personal data, please contact us:</p>
           <ul>
             <li>Email: privacy@company.com</li>
-            <li>Телефон: +7 (XXX) XXX-XX-XX</li>
-            <li>Адрес: г. Петропавловск, ул. Пушкина</li>
+            <li>Phone: +7 (XXX) XXX-XX-XX</li>
+            <li>Address: Petropavlovsk, Pushkina St.</li>
           </ul>
         </section>
       </main>
 
       <!-- Футер -->
       <footer class="page-footer">
-        <p>© {{ currentYear }} Все права защищены.</p>
+        <p>© {{ currentYear }} All rights reserved.</p>
       </footer>
     </div>
   </div>
@@ -121,7 +121,7 @@ export default {
   name: 'PolicyPage',
   data() {
     return {
-      currentDate: new Date().toLocaleDateString('ru-RU'),
+      currentDate: new Date().toLocaleDateString('en-US'),
       currentYear: new Date().getFullYear()
     }
   }
