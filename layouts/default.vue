@@ -10,7 +10,7 @@
           <button 
             @click="toggleMenu"
             class="menu-button group"
-            :aria-label="menuOpen ? 'Закрыть меню' : 'Открыть меню'"
+            :aria-label="menuOpen ? 'Close menu' : 'Open menu'"
             :aria-expanded="menuOpen"
           >
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,16 +54,14 @@
         v-show="menuOpen"
         class="fixed top-16 left-4 z-[10001]"
       >
-        <div 
-          class="dropdown-menu"
-        >
+        <div class="dropdown-menu">
           <div class="menu-header">
             <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
               <span class="text-white text-lg">🌊</span>
             </div>
             <div>
               <div class="font-semibold text-white">Clean Waters</div>
-              <div class="text-xs text-blue-300">Петропавловск</div>
+              <div class="text-xs text-blue-300">Petropavlovsk</div>
             </div>
           </div>
 
@@ -94,7 +92,7 @@
               class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 pointer-events-auto"
             >
               <span>🔐</span>
-              Админ-панель
+              Admin Panel
             </button>
             
             <button 
@@ -103,7 +101,7 @@
               class="w-full flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 pointer-events-auto"
             >
               <span>🚪</span>
-              Выйти
+              Log out
             </button>
 
             <button 
@@ -112,7 +110,7 @@
               class="w-full flex items-center justify-center gap-2 bg-gray-400 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 cursor-not-allowed pointer-events-auto"
             >
               <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              Проверка...
+              Checking...
             </button>
           </div>
         </div>
@@ -131,7 +129,6 @@
       <slot />
     </main>
 
-  <!-- Footer -->
 <footer id="contact" class="bg-gradient-to-br from-gray-900 via-blue-900 to-emerald-900 text-white relative overflow-hidden">
   <!-- Декоративный фон -->
   <div class="absolute inset-0 opacity-10">
@@ -151,33 +148,32 @@
             </div>
             <div>
               <h3 class="text-xl font-bold text-white">Clean Waters</h3>
-              <p class="text-blue-300 text-xs font-medium">ЭКО-ЗАЩИТА ОЗЁР ПЕТРОПАВЛОВСКА</p>
+              <p class="text-blue-300 text-xs font-medium">ECO PROTECTION OF PETROPAVLOVSK LAKES</p>
             </div>
           </div>
           <p class="text-blue-100 text-sm leading-relaxed">
-            Общественная инициатива по защите и восстановлению озёр города Петропавловска. Мы создаём устойчивое экологическое будущее вместе.
+            A public initiative for the protection and restoration of the lakes of Petropavlovsk. We are creating a sustainable ecological future together.
           </p>
           
-          <!-- Мини-статистика -->
           <div class="grid grid-cols-3 gap-2 mt-4">
             <div class="text-center p-3 bg-blue-800/20 rounded-lg border border-blue-700/30">
               <div class="text-lg font-bold text-white">24+</div>
-              <div class="text-xs text-blue-300">Проектов</div>
+              <div class="text-xs text-blue-300">Projects</div>
             </div>
             <div class="text-center p-3 bg-blue-800/20 rounded-lg border border-blue-700/30">
               <div class="text-lg font-bold text-white">8</div>
-              <div class="text-xs text-blue-300">Озёр</div>
+              <div class="text-xs text-blue-300">Lakes</div>
             </div>
             <div class="text-center p-3 bg-blue-800/20 rounded-lg border border-blue-700/30">
               <div class="text-lg font-bold text-white">150+</div>
-              <div class="text-xs text-blue-300">Волонтёров</div>
+              <div class="text-xs text-blue-300">Volunteers</div>
             </div>
           </div>
         </div>
 
         <!-- Контакты -->
         <div>
-          <h4 class="text-white font-bold text-base mb-4 pb-2 border-b border-blue-700/30">Контакты</h4>
+          <h4 class="text-white font-bold text-base mb-4 pb-2 border-b border-blue-700/30">Contacts</h4>
           <div class="space-y-3">
             <div class="flex items-center gap-2">
               <Mail class="w-4 h-4 text-blue-400" />
@@ -189,7 +185,7 @@
             <div class="flex items-center gap-2">
               <Phone class="w-4 h-4 text-blue-400" />
               <div class="text-sm">
-                <div class="text-blue-300 text-xs">Телефон</div>
+                <div class="text-blue-300 text-xs">Phone</div>
                 <div class="text-white">+7 (XXX) XXX-XXX</div>
               </div>
             </div>
@@ -198,7 +194,7 @@
 
         <!-- Навигация -->
         <div>
-          <h4 class="text-white font-bold text-base mb-4 pb-2 border-b border-blue-700/30">Навигация</h4>
+          <h4 class="text-white font-bold text-base mb-4 pb-2 border-b border-blue-700/30">Navigation</h4>
           <nav class="space-y-2">
             <NuxtLink 
               v-for="item in menuItems"
@@ -213,63 +209,25 @@
         </div>
       </div>
 
-      <!-- Соцсети и ссылки -->
       <div class="flex flex-col sm:flex-row justify-between items-center gap-4 py-4 border-t border-blue-800/30">
-        <!-- Соцсети -->
-        <div class="flex gap-2">
-          <a 
-            href="https://aim-hktn.netlify.app/" 
-            class="w-10 h-10 bg-blue-800/20 rounded-lg flex items-center justify-center hover:bg-blue-700/30 transition-colors border border-blue-700/30"
-            aria-label="Netlify"
-            title="Netlify"
-          >
-            <Monitor class="w-4 h-4 text-blue-400" />
-          </a>
-          <a 
-            href="https://github.com/emngr256/hakaton/" 
-            class="w-10 h-10 bg-blue-800/20 rounded-lg flex items-center justify-center hover:bg-blue-700/30 transition-colors border border-blue-700/30"
-            aria-label="Frontend Github"
-            title="Frontend"
-          >
-            <Github class="w-4 h-4 text-blue-400" />
-          </a>
-          <a 
-            href="https://github.com/mansur2286969sgma/hakaton-lakes-back" 
-            class="w-10 h-10 bg-blue-800/20 rounded-lg flex items-center justify-center hover:bg-blue-700/30 transition-colors border border-blue-700/30"
-            aria-label="Backend Github"
-            title="Backend"
-          >
-            <Github class="w-4 h-4 text-blue-400" />
-          </a>
-        </div>
-
-        <!-- Копирайт -->
         <div class="text-center">
           <p class="text-blue-300 text-sm">
-            © {{ currentYear }} Clean Waters. С любовью к природе ❤️
+            © {{ currentYear }} Clean Waters. With love for nature ❤️
           </p>
         </div>
 
-        <!-- Юридические ссылки -->
         <div class="flex gap-4">
-          <NuxtLink 
-            to="/policy" 
-            class="text-blue-400 hover:text-white transition-colors text-xs"
-          >
-            Политика
+          <NuxtLink to="/policy" class="text-blue-400 hover:text-white transition-colors text-xs">
+            Policy
           </NuxtLink>
-          <NuxtLink 
-            to="/conditions" 
-            class="text-blue-400 hover:text-white transition-colors text-xs"
-          >
-            Условия
+          <NuxtLink to="/conditions" class="text-blue-400 hover:text-white transition-colors text-xs">
+            Terms
           </NuxtLink>
-          <!-- Кнопка наверх -->
           <button 
             @click="scrollToTop"
             class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-500 transition-colors text-white ml-2"
-            aria-label="Вернуться наверх"
-            title="Наверх"
+            aria-label="Back to top"
+            title="Top"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
@@ -280,6 +238,7 @@
     </div>
   </div>
 </footer>
+
 
     <!-- Модальное окно авторизации -->
     <transition
@@ -378,12 +337,12 @@ const adminCredentials = ref({
 
 // Элементы меню
 const menuItems = [
-  { path: '/', label: 'Главная', icon: '🏠' },
-  { path: '/dropdownbar/map', label: 'Карта', icon: '🗺️' },
-  { path: '/dropdownbar/temperature', label: 'Температура', icon: '🌡️' },
-  { path: '/dropdownbar/water-level', label: 'Уровень воды', icon: '💧' },
-  { path: '/dropdownbar/infection', label: 'Заражение', icon: '⚠️' },
-  { path: '/suggestions', label: 'Предложения', icon: '📋' },
+  { path: '/', label: 'Home', icon: '🏠' },
+  { path: '/dropdownbar/map', label: 'Map', icon: '🗺️' },
+  { path: '/dropdownbar/temperature', label: 'Temperature', icon: '🌡️' },
+  { path: '/dropdownbar/water-level', label: 'Water level', icon: '💧' },
+  { path: '/dropdownbar/infection', label: 'Infection', icon: '⚠️' },
+  { path: '/suggestions', label: 'Suggestions', icon: '📋' },
 ]
 
 // Определяем мобильное устройство
@@ -707,6 +666,4 @@ html, body {
     display: flex;
   }
 }
-
-
 </style>
