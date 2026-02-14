@@ -3,10 +3,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxi build",
-    "dev": "nuxi dev",
-    "generate": "nuxi generate",
-    "preview": "nuxi preview"
+    "postinstall": "chmod +x ./node_modules/.bin/nuxi || true",
+    "build": "node ./node_modules/nuxt/bin/nuxi.mjs build",
+    "dev": "node ./node_modules/nuxt/bin/nuxi.mjs dev",
+    "generate": "node ./node_modules/nuxt/bin/nuxi.mjs generate",
+    "preview": "node ./node_modules/nuxt/bin/nuxi.mjs preview"
   },
   "dependencies": {
     "@nuxt/ui": "^4.1.0",
