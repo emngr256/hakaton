@@ -6,11 +6,11 @@
         <div class="text-center text-white mb-8">
           <div class="inline-flex items-center gap-3 bg-blue-600/90 backdrop-blur-sm text-white px-6 py-3 rounded-full mb-6">
             <div class="w-3 h-3 bg-blue-300 rounded-full animate-pulse"></div>
-            <span class="font-medium">Интерактивная карта водоемов</span>
+            <span class="font-medium">Interactive Water Map</span>
           </div>
-          <h1 class="text-4xl md:text-5xl font-bold mb-4">Водоемы Петропавловска</h1>
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Water Bodies of Petropavlovsk</h1>
           <p class="text-xl text-gray-200 max-w-2xl mx-auto">
-            Мониторинг состояния водоемов: температура, уровень воды, содержание метана и инфекции
+            Monitoring water bodies: temperature, water level, methane content, and infection rate
           </p>
         </div>
       </div>
@@ -22,144 +22,144 @@
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <!-- Sidebar -->
           <div class="lg:col-span-1 space-y-6">
-            <!-- Статистика -->
+            <!-- Statistics -->
             <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
               <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
-                Общая статистика
+                Overall Statistics
               </h3>
               <div class="space-y-4">
                 <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                  <span class="text-sm font-medium text-gray-700">Всего водоемов</span>
+                  <span class="text-sm font-medium text-gray-700">Total water bodies</span>
                   <span class="font-bold text-blue-600">{{ waterbodies.length }}</span>
                 </div>
                 <div class="flex justify-between items-center p-3 bg-cyan-50 rounded-lg">
-                  <span class="text-sm font-medium text-gray-700">Озера / Реки</span>
+                  <span class="text-sm font-medium text-gray-700">Lakes / Rivers</span>
                   <span class="font-bold text-cyan-600">{{ lakesCount }} / {{ riversCount }}</span>
                 </div>
                 <div class="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
-                  <span class="text-sm font-medium text-gray-700">Средняя темп.</span>
+                  <span class="text-sm font-medium text-gray-700">Avg. temperature</span>
                   <span class="font-bold text-purple-600">{{ avgTemperature.toFixed(1) }}°C</span>
                 </div>
                 <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-                  <span class="text-sm font-medium text-gray-700">Макс. инфекция</span>
+                  <span class="text-sm font-medium text-gray-700">Max infection</span>
                   <span class="font-bold text-red-600">{{ maxInfection }}%</span>
                 </div>
               </div>
             </div>
 
-            <!-- Фильтры -->
+            <!-- Filters -->
             <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
               <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
                 </svg>
-                Фильтры
+                Filters
               </h3>
               <div class="space-y-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Тип водоема</label>
-                  <select 
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Water body type</label>
+                  <select
                     v-model="filters.type"
                     class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-200"
                   >
-                    <option value="all">Все типы</option>
-                    <option value="lake">Озеро</option>
-                    <option value="river">Река</option>
+                    <option value="all">All types</option>
+                    <option value="lake">Lake</option>
+                    <option value="river">River</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Инфекция: до {{ filters.maxInfection }}%
+                    Infection: up to {{ filters.maxInfection }}%
                   </label>
-                  <input 
+                  <input
                     v-model="filters.maxInfection"
-                    type="range" 
-                    min="0" 
-                    max="100" 
+                    type="range"
+                    min="0"
+                    max="100"
                     class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                   >
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Метан от</label>
-                    <input 
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Methane from</label>
+                    <input
                       v-model.number="filters.methaneMin"
-                      type="number" 
+                      type="number"
                       placeholder="0"
                       class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-200"
                     >
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Метан до</label>
-                    <input 
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Methane to</label>
+                    <input
                       v-model.number="filters.methaneMax"
-                      type="number" 
+                      type="number"
                       placeholder="20"
                       class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all duration-200"
                     >
                   </div>
                 </div>
 
-                <button 
+                <button
                   @click="resetFilters"
                   class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
                 >
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                   </svg>
-                  Сбросить фильтры
+                  Reset filters
                 </button>
               </div>
             </div>
 
-            <!-- Быстрые действия -->
+            <!-- Quick Actions -->
             <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
-              <h3 class="text-xl font-bold text-gray-800 mb-4">Быстрые действия</h3>
+              <h3 class="text-xl font-bold text-gray-800 mb-4">Quick actions</h3>
               <div class="space-y-3">
-                <button 
+                <button
                   @click="resetView"
                   class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
                 >
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                   </svg>
-                  Сбросить вид карты
+                  Reset map view
                 </button>
-                <button 
+                <button
                   @click="showAllWaterbodies"
                   class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
                 >
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
                   </svg>
-                  Показать все водоемы
+                  Show all water bodies
                 </button>
               </div>
             </div>
           </div>
 
-          <!-- Карта и информация -->
+          <!-- Map & Info -->
           <div class="lg:col-span-3">
             <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 mb-6">
-              <!-- Заголовок карты -->
+              <!-- Map Header -->
               <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-gray-800">Интерактивная карта водоемов</h2>
+                <h2 class="text-2xl font-bold text-gray-800">Interactive Map</h2>
                 <div class="flex items-center gap-3">
-                  <!-- Переключатель стилей карты -->
+                  <!-- Map Style Switch -->
                   <div class="flex bg-gray-100 rounded-lg p-1">
-                    <button 
-                      v-for="style in mapStyles" 
+                    <button
+                      v-for="style in mapStyles"
                       :key="style.id"
                       @click="setActiveLayer(style.id)"
                       :class="[
                         'px-3 py-1 rounded-md text-sm font-medium transition-all duration-200',
-                        activeLayer === style.id 
-                          ? 'bg-white text-blue-600 shadow-sm' 
+                        activeLayer === style.id
+                          ? 'bg-white text-blue-600 shadow-sm'
                           : 'text-gray-600 hover:text-gray-800'
                       ]"
                       :title="style.name"
@@ -170,21 +170,21 @@
                 </div>
               </div>
 
-              <!-- Контейнер карты -->
+              <!-- Map Container -->
               <div class="relative h-96 lg:h-[500px]">
-                <LMap 
+                <LMap
                   ref="map"
-                  :zoom="zoom" 
-                  :center="center" 
+                  :zoom="zoom"
+                  :center="center"
                   :use-global-leaflet="false"
                   class="h-full w-full rounded-b-2xl"
                   :options="{
                     zoomControl: false,
-                    attributionControl: false,
+                    attributionControl: false
                   }"
                   @click="clearSelection"
                 >
-                  <!-- Слой OpenStreetMap (стандартная карта) -->
+                  <!-- OSM Layer -->
                   <LTileLayer
                     v-if="activeLayer === 'osm'"
                     :url="osmUrl"
@@ -192,27 +192,27 @@
                     name="OpenStreetMap"
                     :attribution="osmAttribution"
                   />
-                  
-                  <!-- Слой спутника -->
+
+                  <!-- Satellite Layer -->
                   <LTileLayer
                     v-if="activeLayer === 'satellite'"
                     :url="satelliteUrl"
                     layer-type="base"
-                    name="Спутник"
+                    name="Satellite"
                     :attribution="satelliteAttribution"
                     :max-zoom="19"
                   />
-                  
-                  <!-- Слой топографии -->
+
+                  <!-- Topo Layer -->
                   <LTileLayer
                     v-if="activeLayer === 'topo'"
                     :url="topoUrl"
                     layer-type="base"
-                    name="Топография"
+                    name="Topography"
                     :attribution="topoAttribution"
                   />
-                  
-                  <!-- Маркеры для водоемов -->
+
+                  <!-- Markers -->
                   <LMarker
                     v-for="waterbody in filteredWaterbodies"
                     :key="waterbody.id"
@@ -225,7 +225,7 @@
                       :icon-anchor="[16, 48]"
                       class="cursor-pointer transition-transform duration-200 hover:scale-110"
                     />
-                    
+
                     <LPopup :options="{ maxWidth: 300 }">
                       <div class="p-4">
                         <div class="flex items-start justify-between mb-3">
@@ -234,113 +234,109 @@
                             <div class="flex items-center gap-2">
                               <div class="w-3 h-3 rounded-full" :class="getWaterbodyTypeColor(waterbody.type)"></div>
                               <span class="text-sm text-gray-600">
-                                {{ waterbody.type === 'lake' ? 'Озеро' : 'Река' }}
+                                {{ waterbody.type === 'lake' ? 'Lake' : 'River' }}
                               </span>
                             </div>
                           </div>
                           <div class="px-2 py-1 rounded text-xs font-bold" :class="getInfectionBadgeClass(waterbody.infection)">
-                            {{ waterbody.infection }}% инфекции
+                            {{ waterbody.infection }}% infection
                           </div>
                         </div>
-                        
+
                         <div class="grid grid-cols-2 gap-3 mb-3">
                           <div class="bg-blue-50 p-3 rounded-lg">
-                            <div class="text-xs text-blue-600 font-semibold mb-1">ТЕМПЕРАТУРА</div>
+                            <div class="text-xs text-blue-600 font-semibold mb-1">TEMPERATURE</div>
                             <div class="font-bold text-gray-800">{{ waterbody.temperature }}°C</div>
                           </div>
                           <div class="bg-cyan-50 p-3 rounded-lg">
-                            <div class="text-xs text-cyan-600 font-semibold mb-1">УРОВЕНЬ ВОДЫ</div>
-                            <div class="font-bold text-gray-800">{{ waterbody.waterLevel }} м</div>
+                            <div class="text-xs text-cyan-600 font-semibold mb-1">WATER LEVEL</div>
+                            <div class="font-bold text-gray-800">{{ waterbody.waterLevel }} m</div>
                           </div>
                           <div class="bg-purple-50 p-3 rounded-lg">
-                            <div class="text-xs text-purple-600 font-semibold mb-1">МЕТАН</div>
+                            <div class="text-xs text-purple-600 font-semibold mb-1">METHANE</div>
                             <div class="font-bold text-gray-800">{{ waterbody.methane }} ppm</div>
                           </div>
                           <div class="bg-red-50 p-3 rounded-lg">
-                            <div class="text-xs text-red-600 font-semibold mb-1">ИНФЕКЦИЯ</div>
+                            <div class="text-xs text-red-600 font-semibold mb-1">INFECTION</div>
                             <div class="font-bold text-gray-800">{{ waterbody.infection }}%</div>
                           </div>
                         </div>
-                        
-                        <button 
+
+                        <button
                           @click="selectWaterbody(waterbody)"
                           class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm"
                         >
-                          Подробнее
+                          Details
                         </button>
                       </div>
                     </LPopup>
                   </LMarker>
 
-                  <!-- Легенда карты -->
+                  <!-- Legend -->
                   <LControl position="bottomright" class="custom-control">
                     <div class="bg-white rounded-lg shadow-xl p-4 min-w-48 border border-gray-200">
                       <h3 class="font-bold text-gray-800 mb-3 text-sm flex items-center">
                         <svg class="w-4 h-4 mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        Легенда карты
+                        Map Legend
                       </h3>
                       <div class="space-y-2">
                         <div class="flex items-center justify-between group">
                           <div class="flex items-center">
                             <div class="w-4 h-4 bg-[#00009C] rounded-full mr-2"></div>
-                            <span class="text-sm text-gray-700">Низкая инфекция (0-10%)</span>
+                            <span class="text-sm text-gray-700">Low infection (0–10%)</span>
                           </div>
                           <span class="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded">{{ lowInfectionCount }}</span>
                         </div>
                         <div class="flex items-center justify-between group">
                           <div class="flex items-center">
                             <div class="w-4 h-4 bg-blue-300 rounded-full mr-2"></div>
-                            <span class="text-sm text-gray-700">Умеренная (10-20%)</span>
+                            <span class="text-sm text-gray-700">Moderate (10–20%)</span>
                           </div>
                           <span class="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded">{{ moderateInfectionCount }}</span>
                         </div>
                         <div class="flex items-center justify-between group">
                           <div class="flex items-center">
                             <div class="w-4 h-4 bg-yellow-500 rounded-full mr-2"></div>
-                            <span class="text-sm text-gray-700">Средняя (20-50%)</span>
+                            <span class="text-sm text-gray-700">Medium (20–50%)</span>
                           </div>
                           <span class="text-xs text-gray-500 bg-yellow-50 px-2 py-1 rounded">{{ mediumInfectionCount }}</span>
                         </div>
                         <div class="flex items-center justify-between group">
                           <div class="flex items-center">
                             <div class="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
-                            <span class="text-sm text-gray-700">Высокая (50%+)</span>
+                            <span class="text-sm text-gray-700">High (50%+)</span>
                           </div>
                           <span class="text-xs text-gray-500 bg-red-50 px-2 py-1 rounded">{{ highInfectionCount }}</span>
                         </div>
                         <div class="pt-2 border-t">
                           <div class="flex items-center">
                             <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
-                            <span class="text-sm text-gray-700">Река Ишим</span>
+                            <span class="text-sm text-gray-700">Ishim River</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </LControl>
 
-                  <!-- Контролы масштабирования -->
+                  <!-- Zoom controls -->
                   <LControlZoom position="topleft" />
 
-                  <!-- Масштабная линейка -->
-                  <LControlScale 
-                    position="bottomleft" 
-                    :imperial="false" 
-                    :metric="true"
-                  />
+                  <!-- Scale -->
+                  <LControlScale position="bottomleft" :imperial="false" :metric="true" />
                 </LMap>
 
-                <!-- Индикатор загрузки -->
+                <!-- Loading overlay -->
                 <Transition name="fade">
-                  <div 
+                  <div
                     v-if="isLoading"
                     class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 rounded-b-2xl"
                   >
                     <div class="bg-white rounded-lg p-6 shadow-xl">
                       <div class="flex items-center space-x-3">
                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                        <span class="text-gray-700 font-semibold">Загрузка карты...</span>
+                        <span class="text-gray-700 font-semibold">Loading map...</span>
                       </div>
                     </div>
                   </div>
@@ -348,9 +344,9 @@
               </div>
             </div>
 
-            <!-- Информация о выбранном водоеме -->
+            <!-- Selected water body -->
             <Transition name="panel">
-              <div 
+              <div
                 v-if="selectedWaterbody"
                 class="bg-white rounded-2xl shadow-lg p-6 border border-gray-200"
               >
@@ -359,12 +355,9 @@
                     <h3 class="text-2xl font-bold text-gray-800">{{ selectedWaterbody.name }}</h3>
                     <div class="flex items-center mt-2 gap-4">
                       <div class="flex items-center">
-                        <div 
-                          class="w-3 h-3 rounded-full mr-2"
-                          :class="getWaterbodyTypeColor(selectedWaterbody.type)"
-                        ></div>
+                        <div class="w-3 h-3 rounded-full mr-2" :class="getWaterbodyTypeColor(selectedWaterbody.type)"></div>
                         <span class="text-sm text-gray-600">
-                          {{ selectedWaterbody.type === 'lake' ? 'Озеро' : 'Река' }}
+                          {{ selectedWaterbody.type === 'lake' ? 'Lake' : 'River' }}
                         </span>
                       </div>
                       <div class="flex items-center">
@@ -378,7 +371,7 @@
                       </div>
                     </div>
                   </div>
-                  <button 
+                  <button
                     @click="clearSelection"
                     class="text-gray-400 hover:text-gray-600 transition-colors p-1 hover:bg-gray-100 rounded-lg"
                   >
@@ -390,77 +383,77 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                   <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                    <div class="text-xs text-blue-600 font-semibold mb-1">ТЕМПЕРАТУРА ВОДЫ</div>
+                    <div class="text-xs text-blue-600 font-semibold mb-1">WATER TEMPERATURE</div>
                     <div class="font-bold text-gray-800 text-xl">{{ selectedWaterbody.temperature }}°C</div>
-                    <div class="text-xs text-gray-500 mt-1">Текущая температура</div>
+                    <div class="text-xs text-gray-500 mt-1">Current temperature</div>
                   </div>
                   <div class="bg-cyan-50 p-4 rounded-xl border border-cyan-200">
-                    <div class="text-xs text-cyan-600 font-semibold mb-1">УРОВЕНЬ ВОДЫ</div>
-                    <div class="font-bold text-gray-800 text-xl">{{ selectedWaterbody.waterLevel }} м</div>
-                    <div class="text-xs text-gray-500 mt-1">Относительная высота</div>
+                    <div class="text-xs text-cyan-600 font-semibold mb-1">WATER LEVEL</div>
+                    <div class="font-bold text-gray-800 text-xl">{{ selectedWaterbody.waterLevel }} m</div>
+                    <div class="text-xs text-gray-500 mt-1">Relative height</div>
                   </div>
                   <div class="bg-purple-50 p-4 rounded-xl border border-purple-200">
-                    <div class="text-xs text-purple-600 font-semibold mb-1">СОДЕРЖАНИЕ МЕТАНА</div>
+                    <div class="text-xs text-purple-600 font-semibold mb-1">METHANE</div>
                     <div class="font-bold text-gray-800 text-xl">{{ selectedWaterbody.methane }} ppm</div>
-                    <div class="text-xs text-gray-500 mt-1">В атмосфере над водой</div>
+                    <div class="text-xs text-gray-500 mt-1">In the air above water</div>
                   </div>
                   <div class="bg-red-50 p-4 rounded-xl border border-red-200">
-                    <div class="text-xs text-red-600 font-semibold mb-1">УРОВЕНЬ ИНФЕКЦИИ</div>
+                    <div class="text-xs text-red-600 font-semibold mb-1">INFECTION LEVEL</div>
                     <div class="font-bold text-gray-800 text-xl">{{ selectedWaterbody.infection }}%</div>
-                    <div class="text-xs text-gray-500 mt-1">Зараженность воды</div>
+                    <div class="text-xs text-gray-500 mt-1">Water contamination</div>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <!-- Индикатор инфекции -->
+                  <!-- Infection indicator -->
                   <div class="bg-white p-4 rounded-xl border border-gray-200">
                     <div class="flex justify-between items-center mb-3">
-                      <span class="text-sm font-semibold text-gray-700">Уровень инфекции</span>
+                      <span class="text-sm font-semibold text-gray-700">Infection level</span>
                       <span class="text-sm font-bold" :class="getInfectionTextColor(selectedWaterbody.infection)">
                         {{ selectedWaterbody.infection }}%
                       </span>
                     </div>
                     <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-                      <div 
+                      <div
                         class="h-full rounded-full transition-all duration-1000"
                         :class="getInfectionColor(selectedWaterbody.infection)"
                         :style="{ width: selectedWaterbody.infection + '%' }"
                       ></div>
                     </div>
                     <div class="text-xs text-gray-500 mt-2">
-                      <span v-if="selectedWaterbody.infection < 10">Безопасный уровень</span>
-                      <span v-else-if="selectedWaterbody.infection < 20">Умеренный риск</span>
-                      <span v-else-if="selectedWaterbody.infection < 50">Повышенный риск</span>
-                      <span v-else>Опасный уровень</span>
+                      <span v-if="selectedWaterbody.infection < 10">Safe level</span>
+                      <span v-else-if="selectedWaterbody.infection < 20">Moderate risk</span>
+                      <span v-else-if="selectedWaterbody.infection < 50">Increased risk</span>
+                      <span v-else>Dangerous level</span>
                     </div>
                   </div>
 
-                  <!-- Статус водоема -->
+                  <!-- Status -->
                   <div class="bg-gradient-to-r from-blue-500 to-cyan-600 p-4 rounded-xl text-white">
-                    <div class="text-xs font-semibold text-blue-100 mb-1">СТАТУС ВОДОЕМА</div>
+                    <div class="text-xs font-semibold text-blue-100 mb-1">WATER BODY STATUS</div>
                     <div class="font-bold text-2xl">{{ getWaterbodyStatus(selectedWaterbody) }}</div>
-                    <div class="text-blue-100 text-xs mt-1">Рекомендация по использованию</div>
+                    <div class="text-blue-100 text-xs mt-1">Usage recommendation</div>
                   </div>
                 </div>
 
-                <!-- Дополнительная информация -->
+                <!-- Details -->
                 <div class="mt-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
-                  <h4 class="font-semibold text-gray-800 mb-3">Детальная информация</h4>
+                  <h4 class="font-semibold text-gray-800 mb-3">Detailed information</h4>
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
                     <div class="flex justify-between py-2 border-b border-gray-200">
-                      <span>Тип водоема:</span>
-                      <span class="font-semibold text-gray-800">{{ selectedWaterbody.type === 'lake' ? 'Озеро' : 'Река' }}</span>
+                      <span>Type:</span>
+                      <span class="font-semibold text-gray-800">{{ selectedWaterbody.type === 'lake' ? 'Lake' : 'River' }}</span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-gray-200">
-                      <span>Координаты:</span>
+                      <span>Coordinates:</span>
                       <span class="font-semibold text-gray-800">{{ selectedWaterbody.coordinates[0].toFixed(4) }}, {{ selectedWaterbody.coordinates[1].toFixed(4) }}</span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-gray-200">
-                      <span>Дата последнего замера:</span>
+                      <span>Last measurement:</span>
                       <span class="font-semibold text-gray-800">{{ new Date().toLocaleDateString() }}</span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-gray-200">
-                      <span>Рекомендации:</span>
+                      <span>Recommendation:</span>
                       <span class="font-semibold text-gray-800">{{ getRecommendation(selectedWaterbody) }}</span>
                     </div>
                   </div>
@@ -468,8 +461,8 @@
               </div>
             </Transition>
 
-            <!-- Сообщение при отсутствии выбора -->
-            <div 
+            <!-- Empty state -->
+            <div
               v-if="!selectedWaterbody"
               class="bg-white rounded-2xl shadow-lg p-8 border border-gray-200 text-center"
             >
@@ -478,8 +471,8 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
                 </svg>
               </div>
-              <h3 class="text-xl font-bold text-gray-800 mb-2">Выберите водоем на карте</h3>
-              <p class="text-gray-600">Кликните на любой водоем для просмотра детальной информации о его состоянии</p>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Select a water body on the map</h3>
+              <p class="text-gray-600">Click any marker to view detailed information about its condition</p>
             </div>
           </div>
         </div>
@@ -493,7 +486,7 @@ import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import { ref, reactive, computed, onMounted } from 'vue'
 
-// Фикс для маркеров в Leaflet
+// Fix Leaflet marker icons
 delete (L.Icon.Default.prototype as any)._getIconUrl
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -508,7 +501,7 @@ const activeLayer = ref<'osm' | 'satellite' | 'topo'>('osm')
 const selectedWaterbody = ref<any>(null)
 const isLoading = ref(false)
 
-// URL и атрибуция для разных слоев карты
+// URLs & attribution for layers
 const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 const osmAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 
@@ -518,14 +511,14 @@ const satelliteAttribution = '&copy; <a href="https://www.esri.com/">Esri</a>, M
 const topoUrl = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'
 const topoAttribution = '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> contributors'
 
-// Стили карты
+// Map styles
 const mapStyles = ref([
-  { id: 'osm', name: 'Стандартная карта', shortName: 'Станд' },
-  { id: 'satellite', name: 'Спутниковая съемка', shortName: 'Спут' },
-  { id: 'topo', name: 'Топографическая карта', shortName: 'Топо' }
+  { id: 'osm', name: 'Standard map', shortName: 'Std' },
+  { id: 'satellite', name: 'Satellite view', shortName: 'Sat' },
+  { id: 'topo', name: 'Topographic map', shortName: 'Topo' }
 ])
 
-// Фильтры
+// Filters
 const filters = reactive({
   type: 'all',
   maxInfection: 100,
@@ -533,11 +526,11 @@ const filters = reactive({
   methaneMax: null as number | null
 })
 
-// Данные по водоемам
+// Water bodies data
 const waterbodies = ref([
   {
     id: 1,
-    name: 'Озеро Пестрое',
+    name: 'Lake Pestroe',
     coordinates: [54.836699, 69.111328] as [number, number],
     type: 'lake',
     temperature: 18.5,
@@ -547,7 +540,7 @@ const waterbodies = ref([
   },
   {
     id: 2,
-    name: 'Озеро Белое',
+    name: 'Lake Beloe',
     coordinates: [54.927154, 69.254322] as [number, number],
     type: 'lake',
     temperature: 16.8,
@@ -557,7 +550,7 @@ const waterbodies = ref([
   },
   {
     id: 3,
-    name: 'Озеро Горькое',
+    name: 'Lake Gorkoe',
     coordinates: [54.947573, 68.951122] as [number, number],
     type: 'lake',
     temperature: 17.2,
@@ -567,7 +560,7 @@ const waterbodies = ref([
   },
   {
     id: 4,
-    name: 'Озеро Поганка',
+    name: 'Lake Poganka',
     coordinates: [54.921209, 69.053476] as [number, number],
     type: 'lake',
     temperature: 19.1,
@@ -577,7 +570,7 @@ const waterbodies = ref([
   },
   {
     id: 5,
-    name: 'Озеро Дикое',
+    name: 'Lake Dikoe',
     coordinates: [54.840156, 69.131957] as [number, number],
     type: 'lake',
     temperature: 20.3,
@@ -587,7 +580,7 @@ const waterbodies = ref([
   },
   {
     id: 6,
-    name: 'Река Ишим',
+    name: 'Ishim River',
     coordinates: [54.893110, 69.127836] as [number, number],
     type: 'river',
     temperature: 15.6,
@@ -597,39 +590,21 @@ const waterbodies = ref([
   }
 ])
 
-// Вычисляемые свойства
-const lakesCount = computed(() => {
-  return waterbodies.value.filter(w => w.type === 'lake').length
-})
-
-const riversCount = computed(() => {
-  return waterbodies.value.filter(w => w.type === 'river').length
-})
+// Computed
+const lakesCount = computed(() => waterbodies.value.filter(w => w.type === 'lake').length)
+const riversCount = computed(() => waterbodies.value.filter(w => w.type === 'river').length)
 
 const avgTemperature = computed(() => {
   const sum = waterbodies.value.reduce((acc, w) => acc + w.temperature, 0)
   return sum / waterbodies.value.length
 })
 
-const maxInfection = computed(() => {
-  return Math.max(...waterbodies.value.map(w => w.infection))
-})
+const maxInfection = computed(() => Math.max(...waterbodies.value.map(w => w.infection)))
 
-const lowInfectionCount = computed(() => {
-  return waterbodies.value.filter(w => w.infection < 10).length
-})
-
-const moderateInfectionCount = computed(() => {
-  return waterbodies.value.filter(w => w.infection >= 10 && w.infection < 20).length
-})
-
-const mediumInfectionCount = computed(() => {
-  return waterbodies.value.filter(w => w.infection >= 20 && w.infection < 50).length
-})
-
-const highInfectionCount = computed(() => {
-  return waterbodies.value.filter(w => w.infection >= 50).length
-})
+const lowInfectionCount = computed(() => waterbodies.value.filter(w => w.infection < 10).length)
+const moderateInfectionCount = computed(() => waterbodies.value.filter(w => w.infection >= 10 && w.infection < 20).length)
+const mediumInfectionCount = computed(() => waterbodies.value.filter(w => w.infection >= 20 && w.infection < 50).length)
+const highInfectionCount = computed(() => waterbodies.value.filter(w => w.infection >= 50).length)
 
 const filteredWaterbodies = computed(() => {
   return waterbodies.value.filter(waterbody => {
@@ -637,38 +612,34 @@ const filteredWaterbodies = computed(() => {
     const infectionMatch = waterbody.infection <= filters.maxInfection
     const methaneMinMatch = filters.methaneMin === null || waterbody.methane >= filters.methaneMin
     const methaneMaxMatch = filters.methaneMax === null || waterbody.methane <= filters.methaneMax
-    
     return typeMatch && infectionMatch && methaneMinMatch && methaneMaxMatch
   })
 })
 
-// Методы
+// Methods
 const setActiveLayer = (layer: 'osm' | 'satellite' | 'topo') => {
   activeLayer.value = layer
 }
 
-// Функция для получения цвета маркера
 const getMarkerColor = (waterbody: any) => {
-  if (waterbody.type === 'river') return '#10B981' // green for river
+  if (waterbody.type === 'river') return '#10B981' // green
   return getInfectionColorHex(waterbody.infection)
 }
 
-// Функция для получения цвета маркера в зависимости от уровня инфекции
 const getInfectionColorHex = (infection: number) => {
-  if (infection < 10) return '#00009C' // blue
-  if (infection < 20) return '#60A5FA' // light blue
-  if (infection < 50) return '#EAB308' // yellow
-  return '#EF4444' // red
+  if (infection < 10) return '#00009C'
+  if (infection < 20) return '#60A5FA'
+  if (infection < 50) return '#EAB308'
+  return '#EF4444'
 }
 
-// Функция для создания кастомных маркеров
 const getMarkerIcon = (waterbody: any) => {
   const color = getMarkerColor(waterbody)
   const svg = `
     <svg width="32" height="48" viewBox="0 0 32 48" xmlns="http://www.w3.org/2000/svg">
-      <path d="M16 0C7.163 0 0 7.163 0 16C0 27 16 48 16 48S32 27 32 16C32 7.163 24.837 0 16 0Z" 
-            fill="${color}" 
-            stroke="#ffffff" 
+      <path d="M16 0C7.163 0 0 7.163 0 16C0 27 16 48 16 48S32 27 32 16C32 7.163 24.837 0 16 0Z"
+            fill="${color}"
+            stroke="#ffffff"
             stroke-width="2"
             filter="drop-shadow(0 2px 4px rgba(0,0,0,0.3))"/>
       <circle cx="16" cy="16" r="5" fill="#ffffff"/>
@@ -697,7 +668,6 @@ const getInfectionTextColor = (infection: number) => {
 }
 
 const getInfectionBadgeClass = (infection: number) => {
-  if (infection < 10) return 'bg-blue-100 text-blue-800'
   if (infection < 20) return 'bg-blue-100 text-blue-800'
   if (infection < 50) return 'bg-yellow-100 text-yellow-800'
   return 'bg-red-100 text-red-800'
@@ -727,11 +697,7 @@ const showAllWaterbodies = () => {
   if (map.value && waterbodies.value.length > 0) {
     const leafletMap = map.value.leafletObject
     const bounds = new L.LatLngBounds([])
-    
-    waterbodies.value.forEach(waterbody => {
-      bounds.extend(waterbody.coordinates)
-    })
-    
+    waterbodies.value.forEach(w => bounds.extend(w.coordinates))
     leafletMap.fitBounds(bounds, { padding: [50, 50] })
     clearSelection()
   }
@@ -745,20 +711,20 @@ const resetFilters = () => {
 }
 
 const getWaterbodyStatus = (waterbody: any) => {
-  if (waterbody.infection < 10) return 'Безопасный'
-  if (waterbody.infection < 20) return 'Условно безопасный'
-  if (waterbody.infection < 50) return 'Требует внимания'
-  return 'Опасный'
+  if (waterbody.infection < 10) return 'Safe'
+  if (waterbody.infection < 20) return 'Conditionally safe'
+  if (waterbody.infection < 50) return 'Needs attention'
+  return 'Dangerous'
 }
 
 const getRecommendation = (waterbody: any) => {
-  if (waterbody.infection < 10) return 'Можно использовать для купания'
-  if (waterbody.infection < 20) return 'Только для технических нужд'
-  if (waterbody.infection < 50) return 'Требуется очистка'
-  return 'Запрещено использование'
+  if (waterbody.infection < 10) return 'Safe for swimming'
+  if (waterbody.infection < 20) return 'Technical use only'
+  if (waterbody.infection < 50) return 'Cleaning required'
+  return 'Use prohibited'
 }
 
-// Инициализация
+// Init loading state
 onMounted(() => {
   isLoading.value = true
   setTimeout(() => {
@@ -768,7 +734,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Стили для карты */
 :deep(.leaflet-container) {
   height: 100%;
   width: 100%;
@@ -778,14 +743,12 @@ onMounted(() => {
   border-radius: 0 0 1rem 1rem;
 }
 
-/* Элементы управления картой */
 :deep(.custom-control) {
   background: transparent !important;
   border: none !important;
   z-index: 10;
 }
 
-/* Кастомный стиль для слайдера */
 .slider::-webkit-slider-thumb {
   appearance: none;
   height: 20px;
@@ -807,7 +770,6 @@ onMounted(() => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Анимации */
 .panel-enter-active,
 .panel-leave-active {
   transition: all 0.3s ease;
